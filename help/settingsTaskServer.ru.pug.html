@@ -1,0 +1,204 @@
+<!--Copyright © 2022. Alexander Belov. Contacts: <asbel@alepiz.com>--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>Настройки сервера выполнения задач taskServer.json</title><link rel="stylesheet" href="../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &amp;lt;asbel@alepiz.com&amp;gt"><script src="../materialize-css/dist/js/materialize.js"></script><script src="../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Описание настроек сервера выполнения задач taskServer.json</h1></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><h3>Описание</h3><p>В ALEPIZ можно создавать задачи, которые состоят из последовательности действий и планировать
+их выполнение в том числе и в зависимости от определенных условий.
+Условием для выполнения задач может быть возвращаемое счетчиком значение, которое при
+преобразовании в тип Boolean интерпретируется как true. Для того, чтобы можно было установить
+зависимость
+выполнения задачи от возвращаемого счетчиком значения, в действии Counter settings для этого
+счетчика необходимо включить флажок Condition for task.</p><p>Например, можно создать счетчик Start of maintenance period (Начало периода обслуживания),
+который будет принимать значение
+true после того, как сервис остановится, система ротации логов упакует лог файлы и система
+резервного копирования скопирует необходимые данные. От этого счетчика можно устанавливать
+зависимость для задачи по обновлению сервиса, которая скопирует новые исполняемые файлы и исправит
+файл конфигурации сервиса в соответствии с правилами для новой версии сервиса.</p><p>Для отслеживания условий запуска задач, служит
+сервер выполнения задач. Он запускается в отдельном потоке, получает по сети данные от сервера
+Counter processor и, при выполнении условий, запускает задачи на выполнение. Подробнее о
+задачах можно почитать в справке к действию Task maker.</p><h3>Настройки сервера</h3><ul class="browser-default"><li>disable (true|false) - с помощью этой настройки можно отключить сервер задач, например для
+распределения нагрузки между несколькими экземплярами ALEPIZ. По умолчанию false.</li><li>localAddress - IP адрес к которому будет привязан сервер задач. По умолчанию 127.0.0.1.</li><li>serverAddress - IP адрес, к которому будут подключаться потоки
+сервера Counter processor. По умолчанию 127.0.0.1.</li><li>serverPort - TCP порт, который будет слушать сервер и к которому будут подключаться потоки
+сервера Counter processor. Например, 10166.</li><li>waitingConditionsTime - интервал времени в миллисекундах, который определяет, как часто
+будут проверяться условия для запуска задач в зависимости от исторического значения каунтера.
+По умолчанию - 30000. Можно менять интервал без перезапуска ALEPIZ.</li><li>dataFile - файл с условиями для выполнения задач. Файл формируется при изменении задачи и
+загружается при запуске ALEPIZ. По умолчанию taskConditions.json.</li><li>rolesPriority - массив, в котором перечислены группы пользователей по приоритету в рабочем
+процессе. При выборе рабочего процесса для пользователя, будет выбрана группа, у которой
+приоритет выше.</li><li>workflow - объект для настройки рабочего процесса. Описание настройки рабочего процесса
+ниже.</li></ul><h3>Настройка рабочего процесса (workflow)</h3><p>Настройка рабочего процесса выполняется через файл конфигурации taskServer.json.
+Использование workflow позволяет организовать оповещение участников рабочего процесса о смене
+состояния задачи. Это может потребоваться, например, для своевременного подтверждения
+задачи администраторами, без чего задача не будет выполнена.
+Кроме того, с помощью workflow можно организовать
+процесс перемещения задачи между группами для организации рабочего процесса.</p><p>Например,
+подразделение, отвечающее за изменение конфигурации сервисов по запросам от
+клиентов, формирует новую задачу и сохраняет ее. В соответствии с настройками workflow,
+задача попадает в группу для проверки и сотрудники получают оповещение о том, что задача ожидает
+их действий.
+После проверки, в соответствии с настройками workflow, задача попадает в группу для подтверждения
+администраторами. Администратор проверяет корректность задачи со своей стороны и подтверждает
+возможность ее выполнения. Оповещение об этом получают сотрудники, создавшие задачу. После
+выполнения, подразделения получают оповещение о том, что задача выполнена.</p><p>Если настроен переход между задачами с помощью функций workflow, в действии Task maker
+будет последовательно выполняться поиск группы, в которой присутствуют задачи.
+Например, если в настройках workflow есть этапы рабочего процесса, в которых описан переход
+между группами Default group =&gt; Task for validation и Task for validation =&gt; Business task,
+то при запуске Task maker сначала будет искать задачи в Default group. Если их там не окажется,
+он перейдет в группу Task for validation. И если там тоже не окажется задач, перейдет в группу
+Business task и отобразит ее содержимое.</p><p>Для настройки рабочего процесса в файле конфигурации taskServer.json создается
+объект workflow, который включает себя объекты - соответствующие названиям групп пользователей.
+Для каждой группы пользователей можно настроить свой рабочий процесс. Если пользователь входит
+в несколько групп, в файле конфигурации можно создать массив rolesPriority, в котором перечислить
+группы пользователей по приоритету. Тогда для определения рабочего процесса пользователя будет
+выбрана группа, у которой приоритет выше.</p><ul class="collapsible"><li><div class="collapsible-header"><i class="material-icons">settings</i> Пример настройки рабочего процесса для группы Administrators (нажмите для того, чтобы развернуть)</div><div class="collapsible-body"><pre>"rolesPriority": ["Administrators", "Businesses", "Watchers", "Guests"],
+"workflow": {
+    "Administrators": [{
+        "action": "change",
+        "changeGroup": "Default group, Business tasks",
+        "actionDescription": "Submit a task for review to administrators in the Business tasks group"
+        "message": {
+            "priority": 20,
+            "rcpt": "Administrators",
+            "configID": "createTask"
+        }
+    }, {
+        "action":"approve",
+        "actionDescription": "Task approved",
+        "message": {
+            "priority": 20,
+            "rcpt": "Administrators, Businesses",
+            "configID": "approveTask"
+        }
+    }]
+}
+</pre></div></li></ul><p>Для каждой группы пользователей формируется массив, элементы которого описывают этапы
+рабочего процесса. Каждый элемент рабочего процесса должен содержать объекты типа
+"action" и "message"
+</p><h5>Параметр Action</h5><p>Предназначен для определения, для какого действия создается элемент рабочего процесса. В качестве
+действий могут быть:</p><ol><li>approve - происходит, когда администратор одобрил выполнение задачи</li><li>change - происходит, когда в задачу вносятся изменения и задача сохраняется
+с помощью действия Task Maker.</li><li>execute - происходит когда задача выполнена</li><li>remove - происходит, когда задача удалена</li><li>cancel - происходит, когда разрешенная к выполнению задача отменяется администратором.</li><li>check - происходит при выполнении проверки задачи в действии Audit</li></ol><p>Если для одной группы пользователей настроено несколько параметров action с одинаковыми
+значениями, производится
+последовательный перебор всех параметров и поиск среди них подходящего параметра changeGroup,
+в котором первой присутствует группа, в которой на момент выполнения действия находится задача.</p><p>Если при переборе параметров встретится секция без параметра changeGroup, то она будет
+выполнена и дальнейший поиск прекратится.</p><h5>Параметр actionDescription</h5><p>Предназначен для использования в сообщениях. Параметр описывает действие, которое
+было выполнено над задачей.</p><h5>Параметр changeGroup</h5><p>В качестве значения указывается через запятую группа, в которой сейчас находится задача и
+группа, в которую необходимо перенести задачу после выполнения действия над задачей.
+Например, для значения "&lt;group1&gt;, &lt;group2&gt;" - задача будет перемещена из группы
+&lt;group1&gt; в группу &lt;group2&gt;.
+Для действия remove этот параметр не имеет смысла.
+</p><h5>Объект message</h5><p>Служит для настройки отправки сообщения при выполнении какого-то действия. Если объект
+отсутствует, сообщение не будет отправлено. Формат
+объекта message полностью соответствует объекту param (не message), описанному в функции
+<a href="../actions/communication_editor/help/index.html#bookmark12">communication.send(param, callback)</a>.
+В шаблоне сообщения можно использовать переменные, которые принимают значения в зависимости от
+настроек задачи:</p><ul class="browser-default"><li>TASK_ID - идентификатор задачи</li><li>TASK_NAME - название задачи</li><li>TASK_CREATOR - Создатель задачи - логическое имя</li><li>TASK_CREATOR_FULL_NAME - Создатель задачи - полное имя</li><lo>TASK_OBJECTS список объектов, для которых выполняется задача, разделенные HTML тегом &lt;br/&gt;</lo><li>EXECUTE_CONDITION - условие выполнения задачи</li><li>ACTION - описание действия, которое выполняется над задачей (actionDescription) и
+текст ошибки, которая произошла во время выполнения задачи</li><li>ACTIONS_DESCRIPTION - текстовое описание действий, используемых в задаче</li><li>ACTIONS_DESCRIPTION_HTML - описание действий, используемых в задаче в формате HTML</li><li>CHECKER_COMMENT - комментарий, отправленный при проверке выполненной задачи в действии Audit</li></ul><ul class="collapsible"><li><div class="collapsible-header"><i class="material-icons">settings</i> ACTIONS_DESCRIPTION формируется как: (нажмите для того, чтобы развернуть)</div><div class="collapsible-body"><pre>1. <Название действия 1>:
+<Описание действия 1>
+
+2. <Название действия 2>:
+<Описание действия 2>
+
+....
+</pre></div></li></ul><ul class="collapsible"><li><div class="collapsible-header"><i class="material-icons">settings</i> ACTIONS_DESCRIPTION_HTML формируется как: (нажмите для того, чтобы развернуть)</div><div class="collapsible-body"><pre>&lt;ol class=&quot;task-actions-description&quot;&gt;
+    &lt;li&gt;
+        &lt;span class=&quot;task-action&quot;&gt;
+            &lt;span class=&quot;task-action-name&quot;&gt;
+                <b>Название действия 1</b>
+            &lt;/span&gt;
+            &lt;span class=&quot;task-action-startup&quot; data-startup-option=&quot;<b>&lt;условие выполнения задачи&gt;</b>&quot;&gt;
+                &amp;nbsp;
+            &lt;/span&gt;
+            &lt;span class=&quot;task-action-description&quot;&gt;
+                <b>Описание действия 1</b>
+            &lt;/span&gt;
+        &lt;/span&gt;
+    &lt;/li&gt;
+    ....
+&lt;/ol&gt;</pre></div></li></ul><p>где <b>"условие выполнения задачи"</b> может быть 0, 1, 2 или 3:</p><ul><li>0 - Run if previous action completed without errors;</li><li>1 - Run if someone of previous actions executed with an errors;</li><li>2 - Run and don't wait until the previous action will be completed</li><li>3 - Run anyway</li></ul><h4>Пример настройки шаблона сообщения workflow для email:</h4><p>Ниже представлен шаблон approveTask, который будет использоваться в соответствии с настройкой
+workflow, объектом message, в котором установлен параметр "configID": "approveTask".
+Настройка шаблона производится в communication/email/config.json с помощью
+<a href="../actions/communication_editor/help/index.html">Media editor</a>.:
+</p><ul class="collapsible"><li><div class="collapsible-header"><i class="material-icons">settings</i> шаблон approveTask (нажмите для того, чтобы развернуть)</div><div class="collapsible-body"><pre>"approveTask": {
+        "transport": "default",
+        "message": {
+            "subject": "Re: #%:TASK_ID:%: %:TASK_NAME:%",
+            "messageId": "<%:TASK_ID:%.approveTask@alepiz.com>",
+            "inReplyTo": "<%:TASK_ID:%.checkTask@alepiz.com>",
+            "references": "<%:TASK_ID:%.createTask@alepiz.com> <%:TASK_ID:%.checkTask@alepiz.com>",
+            "replyTo": "root@domain.com",
+            "text": {
+                "path": "templates/newTask.txt"
+            },
+            "html": {
+                "path": "templates/replayTask.html"
+            }
+        }
+    }</pre></div></li></ul><ul class="collapsible"><li><div class="collapsible-header"><i class="material-icons">settings</i> Шаблон текстового сообщения templates/newTask.txt (нажмите для того, чтобы развернуть)</div><div class="collapsible-body"><pre>Task status: %:ACTION:%
+Created by: %:TASK_CREATOR_FULL_NAME:%
+Condition: %:EXECUTE_CONDITION:%
+
+%:ACTIONS_DESCRIPTION:%
+</pre></div></li></ul><ul class="collapsible"><li><div class="collapsible-header"><i class="material-icons">settings</i> Шаблон сообщения templates/replayTask.html в формате HTML (нажмите для того, чтобы развернуть)</div><div class="collapsible-body"><pre>&lt;html lang=&quot;ru&quot;&gt;
+&lt;head&gt;
+    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;
+    &lt;title&gt;Create a new task&lt;/title&gt;
+    &lt;style&gt;
+        html {
+            line-height: 1.5;
+            font-family: Roboto, Oxygen-Sans, Ubuntu, Helvetica, sans-serif;
+            font-weight: normal;
+            color: rgba(0, 0, 0, 0.87);
+            font-size: 15px;
+        }
+        p {
+            line-height: 1.5em;
+            margin: 0;
+            padding: 0;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        .task-action-name {
+            font-weight: bold;
+            display:block;
+            float:left;
+        }
+        .task-action-name {
+            font-weight: bold;
+            display:inline-block;
+        }
+        .task-action-startup {
+            font-style:italic;
+            display:inline-block;
+        }
+        .task-action-startup[data-startup-option=&quot;0&quot;]::after {
+            content: &quot;(Run if previous action completed without errors):&quot;;
+        }
+        .task-action-startup[data-startup-option=&quot;1&quot;]::after {
+            content: &quot;(Run if someone of previous actions executed with an errors):&quot;;
+        }
+        .task-action-startup[data-startup-option=&quot;2&quot;]::after {
+            content: &quot;(Run and don&apos;t wait until the previous action will be completed):&quot;;
+        }
+        .task-action-description {
+            display:block;
+            margin: 20px 0;
+            padding-left: 1.5rem;
+            border-left: 2px solid #ee6e73;
+        }
+        .quoted {
+            display:block;
+            margin: 20px 0;
+            padding: 0.5rem 0 1rem 1rem;
+            border-left: 2px solid blue;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;p&gt;&lt;span class=&quot;bold&quot;&gt;Action&lt;/span&gt;: %:ACTION:%&lt;/p&gt;
+
+&lt;div class=&quot;quoted&quot;&gt;
+&lt;h3&gt;%:TASK_NAME:%&lt;/h3&gt;
+%:ACTIONS_DESCRIPTION_HTML:%
+
+&lt;hr/&gt;
+&lt;p&gt;&lt;span class=&quot;bold&quot;&gt;Created by:&lt;/span&gt; %:TASK_CREATOR_FULL_NAME:%&lt;/p&gt;
+&lt;p&gt;&lt;span class=&quot;bold&quot;&gt;Condition:&lt;/span&gt; %:EXECUTE_CONDITION:%&lt;/p&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</pre></div></li></ul></div></div></main></body></html>

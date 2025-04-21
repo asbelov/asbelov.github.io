@@ -1,0 +1,35 @@
+<!--Copyright © 2020. Alexander Belov. Contacts: <asbel@alepiz.com>
+Created on 2020-6-20 4:14:10--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>QLASHA: Система оповещения через громкую связь</title><link rel="stylesheet" href="../../../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../../../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &lt;asbel@alepiz.com&gt;"><script src="../../../materialize-css/dist/js/materialize.js"></script><script src="../../../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>QLASHA</h1><h5 class="light">Отправка сообщений на систему оповещения через громкую связь
+</h5></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><img class="materialboxed card-panel hoverable" src="images/help.main.png" width="1024"><h2>Описание</h2><p>Средство связи QLASHA предназначено для формирования и отправки сообщений на систему
+оповещения через громкую связь. В качестве системы оповещения используется программный продукт
+<a href="https://github.com/asbelov/Qlasha/" target="__blank">QLASHA</a>,
+распространяемый по лицензии открытого и свободного программного обеспечения
+<a href="https://github.com/asbelov/Qlasha/blob/master/LICENSE" target="__blank">MIT</a>.
+Получить исполняемый файл Qlasha.exe можно по ссылке
+<a href="https://github.com/asbelov/Qlasha/blob/master/bin/Release/Qlasha.exe" target="__blank">https://github.com/asbelov/Qlasha/blob/master/bin/Release/Qlasha.exe</a>.
+Поддерживается работа через HTTP прокси сервер.
+</p><h3>Описание параметров файла конфигурации config.json</h3><ul class="browser-default"><li>description: Описание средства связи, например "Sending email via SMTP"</li><li>address: Описание адреса средства связи, например "E-mail address" или ""Phone number"</li><li>re: регулярное выражение с помощью которого можно проверить корректность адреса для
+средства связи</li><li>&lt;configID&gt;: идентификатор конфигурации средства связи. Для одного средства связи можно
+сделать несколько конфигураций и в дальнейшем выбирать требуемую конфигурацию при отправке
+сообщения. Например, в разных конфигурациях одного и того же средства связи могут быть
+различные провайдеры для отправки СМС.</li><ul class="browser-default"><li>transport: объект с параметрами для средства связи. Если значение transport не объект,
+а строка, то она будет интерпретирована как ссылка на идентификатор конфигурации, из
+которого необходимо взять параметры средства связи.</li><li>message: объект, который служит в качестве шаблона сообщения для средства связи.
+Параметр message может отсутствовать.
+</li></ul></ul><h4>Описание transport</h4><ul class="browser-default"><li>host: <string> - имя хоста на котором работает ПО QLASHA</li><li>localAddress: <IP> - если указан, то подключение будет осуществляться с указанного IP адреса</li><li>proxyHost: <string> - имя хоста HTTP прокси. Если не указан, то прокси не используется</li><li>proxyPort: <0-65536> - TCP порт HTTP прокси</li><li>proxyUser: <string> - пользователь для авторизации на HTTP прокси сервере.
+Поддерживается Basic авторизация. Если не указан, авторизация не осуществляется</li><li>proxyPass: <string> - пароль для авторизации на HTTP прокси сервере</li></ul><h4>Описание message</h4><ul class="browser-default"><li>rate: <integer> -10 - 10 - скорость воспроизведения. Если не указано, то 1</li><li>volume: <integer> 0 - 100 - уровень громкости. Если не указано, то 100</li><li>severity: <integer> - важность сообщения. Если сформирована очередь сообщений, более
+важные сообщения будут воспроизводится раньше менее важных. Если не указано, то 0</li></ul><h3>Пример конфигурации QLASHA</h3><div class="card-panel"><pre>{
+    "description": "Sending message to Qlasha",
+    "address": "No address provided",
+    "re": "^$",
+    "default": {
+        "transport": {
+            "host": "localhost"
+        },
+        "message": {
+            "rate": 1,
+            "volume": 100,
+            "severity": 1
+        }
+    }
+}</pre></div></div></div></main></body></html>

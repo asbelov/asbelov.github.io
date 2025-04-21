@@ -1,0 +1,18 @@
+<!--Created by Alexander Belov on 26.04.2020.
+ Copyright (C) 2020. Alexander Belov. Contacts: <asbel@alepiz.com>
+--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>Ping: проверка доступности хоста в сети</title><link rel="stylesheet" href="../../../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../../../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &amp;lt;asbel@alepiz.com&amp;gt"><script src="../../../materialize-css/dist/js/materialize.js"></script><script src="../../../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Ping</h1><h5 class="light">Ping используется для проверки доступности хоста в сети.</h5></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><h3>Предназначение Ping</h3><p>С помощью Ping можно организовать проверку сетевой доступности хоста по протоколу ICMP. Так же
+можно измерять такие параметры, как процент потерь пакетов и время прохождения пакетов (RTT).
+Поддерживаются протоколы IPv4 и IPv6.</p><p>Сборщик использует собственную реализацию протокола Ping. При потерях пакетов он дополнительно
+запускает внешнюю программу ping для проверки полученных значений.</p><h3>Параметры</h3><ul class="browser-default"><li>Target host name, IPv4 or IPv6 address (host) - имя или IP адрес удаленного хоста</li><li>Ping interval is a time between echo requests packets in seconds (pingInterval) -
+интервал между отправляемыми пакетами в секундах</li><li>Size of echo request packet (IP header + ICMP) in bytes from 48 to 4096 (packetSize) -
+размер пакета в байтах</li><li>Number of echo requests to send. 0 is infinite (packetsCnt) - количество отправляемых пакетов.
+0 - бесконечно</li><li>The packet wait timeout in a second, after which packet loss will be detected.
+Mast be greater then ping interval (timeout) - время ожидания пакета в секундах, пока он не будет
+помечен как потерянный. Должно быть больше чем Ping interval</li></ul><h3>Настройки</h3><p>Настройки сборщика хранятся в файле settings.json</p><ul class="browser-default"><li>dontUseExternalPing - Не использовать внешнюю программу ping для проверки работы
+коллектора. Внешняя программа запускается для проверки корректности работы коллектора,
+если пакет теряется. Кроме этого, при потери пакета коллектором, процесс коллектора
+перезапускается. Потеря пакета фиксируется только, если внешняя программа подтвердит
+потерю пакета. В нагруженных системах запуск внешней программы может занять
+большое количество времени и мониторинг будет работать некорректно. Отключение
+использования внешней программы позволяет фиксировать все потери пакетов и отключает
+перезапуск коллектора.</li></ul><h3>Возвращаемое значение</h3><p>Время прохождения пакета в миллисекундах (RTT) или 0, если хост не ответил.</p></div></div></main></body></html>

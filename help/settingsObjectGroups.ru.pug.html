@@ -1,0 +1,22 @@
+<!--Copyright © 2022. Alexander Belov. Contacts: <asbel@alepiz.com>--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>Настройки группировки objectGroup.json</title><link rel="stylesheet" href="../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &amp;lt;asbel@alepiz.com&amp;gt"><script src="../materialize-css/dist/js/materialize.js"></script><script src="../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Описание настроек интерфейса objectGroup.json</h1></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><p>Для удобства работы с большим количеством однотипных объектов в ALEPIZ реализована функция
+группировки объектов по их именам за счет использования регулярного выражения,
+объединяющего несколько объектов, содержащих в имени что-то общее.
+Если ее настроить и включить, ALEPIZ будет отображать вместо каждого
+объект по отдельности, одну группу объектов с указанием, сколько объектов находится в группе.
+Для включения и отключения группировки служит иконка <i class="blue-text material-icons">group</i>.
+Она появляется если настройки для группировки объектов выполнены.</p><ul class="browser-default"><li>objectGroups - объект, содержащий массив с объектами - описаниями алгоритмов группировки объектов:</li><ul class="browser-default"><li>name - Имя группы</li><li>description - Описание группы, которое будет появляться при наведении на группу мышкой</li><li>color - цвет для группы</li><li>sortPosition - позиция сортировки для группы в списке объектов. Если не указать,
+группа будет отсортирована в зависимости от минимальной позиции сортировки включенных
+в нее объектов</li><li>re - строка с регулярным выражением, с которой производится сравнение имен объектов
+для группировки
+</li></ul></ul><ul class="collapsible"><li><div class="collapsible-header"><i class="material-icons">settings</i> Пример objectGroup.json (нажмите для того, чтобы развернуть)</div><div class="collapsible-body"><pre>{
+    "objectGroups":
+        [
+            {
+                "name": "ALEPIZ",
+                "re": "\\[ALEPIZ\\]",
+                "description": "Objects containing ALEPIZ in the name",
+                "color": "red",
+                "sortPosition": 20
+            }
+        ]
+}</pre></div></li></ul></div></div></main></body></html>

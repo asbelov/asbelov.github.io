@@ -1,0 +1,77 @@
+<!--Created by Alexander Belov on 17.04.2020.
+ Copyright (C) 2020. Alexander Belov. Contacts: <asbel@alepiz.com>
+--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>Objects interactions: управление взаимодействиями между объектами. Подробное описание взаимодействий</title><link rel="stylesheet" href="../../../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../../../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &amp;lt;asbel@alepiz.com&amp;gt"><script src="../../../materialize-css/dist/js/materialize.js"></script><script src="../../../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Objects interactions</h1><h5 class="light">С помощью Objects interactions можно устанавливать взаимодействия между объектами.</h5></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><img class="materialboxed card-panel hoverable" src="images/help.main.png" width="1024"><h5>Возвращаемое значение: ничего не возвращает
+</h5><h3>Предназначение Objects interactions и описание возможных взаимодействий объектов</h3><p>Objects interactions предназначен для настройки взаимодействия объектов между собой в
+системном меню Objects. Правильно настроенное взаимодействие позволяет удобно фильтровать
+и отображать объекты в системном меню Objects. Ниже описаны варианты взаимодействий между
+объектами.</p><h4>Включение (группировка) объектов</h4><p>Включение (inclusion) объектов означает, что объект включает в себя другие объекты и является для них группой.
+При нажатии на имени такого объекта появится список
+вложенных объектов. Если выбрать несколько объектов у которых нет настроенного
+взаимодействия между собой, при этом каждый их них включает в себя другие
+объекты и нажать на любой из выбранных объектов, появится список всех вложенных объектов во все группы.</p><blockquote>Например, Parent object 1 содержит Object1, Object2, Object3, а Parent object 2 содержит
+Object2, Object3, Object4. Результатом взаимодействия Parent object 1 и Parent object 2 будет
+Object1, Object2, Object3, Object4
+</blockquote><h4>Пересечение объектов</h4><p>Если объекты включают в себя вложенные объекты и для них настроено "пересечение" (intersection), то
+если выбрать пересекающиеся объекты нажать на любой из выбранных объектов, появится список,
+содержащий только пересекающиеся вложенные объекты.</p><blockquote>Например, Parent object 1 содержит Object1, Object2, Object3, а Parent object 2 содержит
+Object2, Object3, Object4. Результатом взаимодействия с пересечением для
+Parent object 1 и Parent object 2 будет Object2, Object3.
+</blockquote><h4>Исключение объектов</h4><p>Если объекты включают в себя вложенные объекты и для них настроено "исключение" (exclude), то
+если выбрать эти объекты и нажать на любой из выбранных объектов, появится список вложенных объектов
+за исключением пересекающихся.</p><blockquote>Например, Parent object 1 содержит Object1, Object2, Object3, а Parent object 2 содержит
+Object2, Object3, Object4. Результатом взаимодействия с исключением для
+Parent object 1 и Parent object 2 будет Object1, Object4.
+</blockquote><h3>Описание полей ввода</h3><h4>Objects list</h4><p>Настройки взаимодействий будут применяться к объектам, перечисленным в этом поле. Если в
+системном меню Objects выбрать объекты, а затем запустить Objects interactions,
+выбранные объекты появятся в поле Objects list. При необходимости можно добавить объекты в
+поле Objects list. Для этого нужно выбрать объекты в системном меню Objects и нажать на
+ADD SELECTED OBJECTS. Если нажать на крестик справа от объекта в поле Objects list, объект
+будет удален. Удалить все объекты из Objects list можно нажав на REMOVE ALL OBJECTS.</p><img class="materialboxed card-panel hoverable" src="images/help.objectsList.png"><h4>Objects interactions setting</h4><p>Объекты из поля Objects list будут взаимодействовать с объектами из поля Objects interactions
+setting. При необходимости можно добавить объекты в поле Objects interactions setting.
+Для этого нужно выбрать объекты в системном меню Objects и нажать на
+ADD SELECTED OBJECTS TO INTERACTION TABLE. Если нажать на корзину слева от объекта в поле
+Objects interactions setting, объект будет удален.
+Для настройки взаимодействий между объектами нужно отметить соответствующие взаимодействия в
+таблице поля Objects interactions setting.</p><img class="materialboxed card-panel hoverable" src="images/help.objectsInteractionsList.png"><h5>Настройка взаимодействия объектов</h5><table><thead><tr><th>Взаимодействие</th><th>Описание</th></tr></thead><tbody><tr><td>Include</td><td>Объекты из Objects list будут включать объект из строки таблицы Objects
+interactions setting</td></tr><tr><td>Included In</td><td>Объект из строки таблицы Objects interactions setting будет включать объекты из
+Objects list</td></tr><tr><td>Intersection</td><td>Будут отображаться только общие объекты, включенные в Objects list и в объект из
+строки таблицы Objects interactions setting</td></tr><tr><td>Exclusion</td><td>Будут отображаться не общие объекты, включенные в Objects list и в объект из
+строки таблицы Objects interactions setting</td></tr><tr><td>Different</td><td>Если для объектов из Objects list застроены несовпадающие взаимодействия с объектом
+из строки Objects interactions setting, будет выбрано взаимодействие Different. После
+выполнения действия несовпадающие взаимодействия между объектами меняться не будут.
+</td></tr></tbody></table><h3>Примеры взаимодействий объектов и детальное описание</h3><h4>Алгоритм вычисления взаимодействий</h4><p>В случае, если выбрано несколько объектов, их взаимодействие строится по следующему
+алгоритму:</p><ol><li>Если для группы объектов настроен одинаковый тип взаимодействия таким
+образом, что все эти объекты взаимодействуют "каждый с каждым", то создается
+группа из таких объектов и вычисляется требуемое взаимодействие для вложенных
+объектов всей этой группы.</li><li>Если для группы объектов настроен одинаковый тип взаимодействия, но эти
+объекты не взаимодействуют "каждый с каждым", то вычисляется требуемое
+взаимодействие для
+каждой пары объектов, а потом полученные результаты объединяются.</li><li>Если для объектов настроены разные типы взаимодействий, то вычисляются
+требуемые взаимодействия для
+каждой пары объектов, а потом полученные результаты объединяются.
+</li></ol><h4>Пример простого взаимодействия</h4><p>Ниже приведен пример взаимодействия трех объектов Parent object 1, Parent object 2
+и Parent object 3, для которых не настроено
+взаимодействие друг с другом. Результатом является объединение всех вложенных
+объектов.</p><table><thead><tr><th>Parent object 1</th><th>Parent object 2</th><th>Parent object 3</th></tr></thead><tbody><tr><td>Object 1</td><td>Object 3</td><td>Object 4</td></tr><tr><td>Object 2</td><td>Object 4</td><td>Object 5</td></tr><tr><td>Object 3</td><td>Object 5</td><td>Object 6</td></tr><tr><td>Object 4</td><td>Object 6</td><td>Object 7</td></tr><tr><td>Object 5</td><td></td><td>Object 8</td></tr><tr><td></td><td></td><td>Object 9</td></tr><tr><td colspan="3"><b>Result:</b> Object1, Object2, Object3, Object4, Object5, Object6,
+Object7, Object8, Object9
+</td></tr></tbody></table><h4>Пример пересечения объектов</h4><p>Ниже приведен пример взаимодействия трех объектов Parent object 1, Parent object 2
+и Parent object 3, для которых настроено пересечение по типу "каждый с каждым".
+То есть для Parent object 1 настроено пересечение с Parent object 2, Parent object 2
+настроено пересечение с Parent object 3 и Parent object 1 настроено пересечение
+с Parent object 3. Результатом является список пересекающихся вложенных объектов.</p><table><thead><tr><th>Parent object 1</th><th>Parent object 2</th><th>Parent object 3</th></tr></thead><tbody><tr><td>Object 1</td><td>Object 3</td><td>Object 4</td></tr><tr><td>Object 2</td><td>Object 4</td><td>Object 5</td></tr><tr><td>Object 3</td><td>Object 5</td><td>Object 6</td></tr><tr><td>Object 4</td><td>Object 6</td><td>Object 7</td></tr><tr><td>Object 5</td><td></td><td>Object 8</td></tr><tr><td></td><td></td><td>Object 9</td></tr><tr><td colspan="3"><b>Result:</b> Object4, Object5</td></tr></tbody></table><h4>Пример исключения объектов</h4><p>Ниже приведен пример взаимодействия трех объектов Parent object 1, Parent object 2
+и Parent object 3, для которых настроено исключение по типу "каждый с каждым".
+То есть для Parent object 1 настроено исключение с Parent object 2, Parent object 2
+настроено исключение с Parent object 3 и Parent object 1 настроено исключение
+с Parent object 3. Результатом является список не пересекающихся вложенных объектов.</p><table><thead><tr><th>Parent object 1</th><th>Parent object 2</th><th>Parent object 3</th></tr></thead><tbody><tr><td>Object 1</td><td>Object 3</td><td>Object 4</td></tr><tr><td>Object 2</td><td>Object 4</td><td>Object 5</td></tr><tr><td>Object 3</td><td>Object 5</td><td>Object 6</td></tr><tr><td>Object 4</td><td>Object 6</td><td>Object 7</td></tr><tr><td>Object 5</td><td></td><td>Object 8</td></tr><tr><td></td><td></td><td>Object 9</td></tr><tr><td colspan="3"><b>Result:</b> Object1, Object2, Object3, Object6, Object7, Object8, Object9</td></tr></tbody></table><h4>Пример исключения и объединения объектов</h4><p>Ниже приведен пример взаимодействия трех объектов Parent object 1, Parent object 2,
+Parent object 3, Parent object 4 и Parent object 5.
+Для Parent object 1, Parent object 2, Parent object 3 настроено исключение по
+типу "каждый с каждым". Для Parent object 4 и Parent object 5 настроено пересечение
+между собой.
+То есть для Parent object 1 настроено исключение с Parent object 2, Parent object 2
+настроено исключение с Parent object 3 и Parent object 1 настроено исключение
+с Parent object 3, Parent object 4 настроено пересечение с Parent object 5
+
+Результатом является объединение списка не пересекающихся вложенных объектов для
+Parent object 1, Parent object 2, Parent object 3 и списка пересекающихся
+объектов для Parent object 4 и Parent object 5</p><table><thead><tr><th>Parent object 1</th><th>Parent object 2</th><th>Parent object 3</th><th>Parent object 4</th><th>Parent object 5</th></tr></thead><tbody><tr><td>Object 1</td><td>Object 3</td><td>Object 4</td><td>Object 10</td><td>Object 11</td></tr><tr><td>Object 2</td><td>Object 4</td><td>Object 5</td><td>Object 11</td><td>Object 12</td></tr><tr><td>Object 3</td><td>Object 5</td><td>Object 6</td><td>Object 12</td><td>Object 13</td></tr><tr><td>Object 4</td><td>Object 6</td><td>Object 7</td><td></td><td></td></tr><tr><td>Object 5</td><td></td><td>Object 8</td><td></td><td></td></tr><tr><td></td><td></td><td>Object 9</td><td></td><td></td></tr><tr><td colspan="5"><b>Result:</b> Object1, Object2, Object3, Object6, Object7, Object8, Object9,
+Object11, Object12</td></tr></tbody></table></div></div></main></body></html>

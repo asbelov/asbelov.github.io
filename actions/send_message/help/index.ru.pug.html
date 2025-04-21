@@ -1,0 +1,22 @@
+<!--Copyright © 2020. Alexander Belov. Contacts: <asbel@alepiz.com>
+Created on 2020-6-23 0:39:38--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>Send message: отправка сообщений с помощью communication media</title><link rel="stylesheet" href="../../../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../../../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &lt;asbel@alepiz.com&gt;"><script src="../../../materialize-css/dist/js/materialize.js"></script><script src="../../../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Send message</h1><h5 class="light">Отправка сообщений с помощью системы Communication media.
+</h5></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><img class="materialboxed card-panel hoverable" src="images/help.main.png" width="1024"><h2>Описание Send message</h2><p>С помощью Send message можно сформировать и отправить сообщение пользователям. Действие служит для
+проверки работы модулей Communication media и автоматизации отправки сообщений.
+</p><h5>Возвращаемое значение: массив из media ID, которые использовались при отправке сообщения
+</h5><h2>Описание интерфейса</h2><p>Поля ввода имеют следующее предназначение:</p><ul class="browser-default"><li>ConfigID - идентификатор конфигурации средств связи. В зависимости от него будет производится выбор
+настроек для средств связи. Если конфигурации с таким идентификатором не окажется, будет использована
+конфигурация с идентификатором "default". Название идентификаторов можно посмотреть в
+конфигурационных файлах средств связи.</li><li>Priorities or media - Установка приоритета сообщения (Priorities) для автоматического выбора
+средства связи в зависимости от настроек пользователя, либо выбор определенного средства связи,
+(Medias) необходимого для отправки сообщения. Ели выбрано определенное средство связи,
+автоматический выбор средства через приоритеты использоваться не будет. Можно выбрать
+несколько приоритетов. Средство связи может быть выбрано выбрать только одно,
+если будет выбрано несколько средств связи будет использоваться первое.</li><li>Sender - выбор отправителя сообщения</li><li>Recipients - выбор получателей сообщения.</li><li>Message - текст сообщения. Поле ввода является многострочным.</li><li>New field name - Поле служит для ввода дополнительных параметров сообщения. Если параметры поддерживаются
+выбранным средством связи, они будут использованы при отправки сообщения. Посмотреть
+поддерживаемые параметры можно в описании средства связи, настройка message. Для ввода
+дополнительного параметра
+необходимо ввести его название и нажать на "+". Новое многострочное поле ввода
+появится ниже. В него необходимо ввести требуемое значение. На примере выше создано
+дополнительное поле subject в которое введено значение "Test in a subject". Такой параметр имеет
+смысл для email сообщений. Если сообщение будет отправлено например, через СМС сервис
+провайдера, этот параметр будет проигнорирован.</li></ul></div></div></main></body></html>

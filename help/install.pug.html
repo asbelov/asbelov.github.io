@@ -1,0 +1,64 @@
+<!--Copyright © 2020. Alexander Belov. Contacts: <asbel@alepiz.com>
+Created on 2020-5-8 22:48:12--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>Установка, системные требования, получение, и подключение к системе.</title><link rel="stylesheet" href="../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &amp;lt;asbel@alepiz.com&amp;gt"><script src="../materialize-css/dist/js/materialize.js"></script><script src="../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Установка ALEPIZ</h1></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><h2>Системные требования</h2><p>Для работы ALEPIZ требуется процессор архитектуры Intel x64 с установленной ОС Microsoft Windows
+версии не ниже Windows Server 2012 или Windows 10. После установки ALEPIZ использует 200Mb
+дискового пространства. Потребление оперативной памяти на сервере с 12 ядрами CPU, при
+обслуживании 10 объектов мониторинга составляет около 1Gb.
+Основной расход дискового пространства приходится на хранение исторических данных.</p><p>При увеличении количества объектов, рост потребления оперативной памяти и других ресурсов
+происходит нелинейно и зависит от размера инфраструктуры и настроек системы.
+Например, для обработки данных от 10 000 объектов мониторинга, по 25 метрик и
+мониторинговых событий на каждый объект, необходим сервер с 2 процессорами, по 16 ядер
+на процессор и 100Гб оперативной памяти.
+При условии хранения исторических данных в течение 3х месяцев и применении алгоритма
+прореживания одинаковых данных, требуется около 300Gb дискового пространства.
+Рекомендуется использовать дисковые накопители типа SSD и
+RAID контроллер с памятью для кэширования данных</p><blockquote>ALEPIZ включает в себя все необходимые компоненты для работы.
+Дополнительного программного обеспечения для работы серверной части системы
+устанавливать не требуется.</blockquote><p>Взаимодействие с ALEPIZ осуществляется через Web интерфейс.
+Для управления ALEPIZ потребуется компьютер, планшет, либо смартфон с установленным
+браузером.</p><h2>Получение ALEPIZ</h2><p>Последнюю стабильную версию ALEPIZ можно получить на странице
+<a href="https://alepiz.com/help/download.pug">https://alepiz.com/help/download.pug</a>.</p><h2>Установка ALEPIZ с использованием установочного пакета</h2><blockquote>Для ознакомления с ALEPIZ, его можно установить на персональный компьютер или ноутбук.</blockquote><p>После скачивания установочного пакета, его необходимо запустить. Для корректной установки
+потребуются привилегии администратора системы. В процессе установки необходимо
+принять лицензионное соглашение и указать, куда вы собираетесь установить ALEPIZ.
+В примере на скриншоте, путь по умолчанию C:\Program Files\ALEPIZ был заменен на D:\ALEPIZ.</p><div class="row"><div class="col m6 s12"><img class="materialboxed card-panel hoverable" src="images/help.installSetupLicense.png" width="500px"></div><div class="col m6 s12"><img class="materialboxed card-panel hoverable" src="images/help.installSetupPath.png" width="500px"></div></div><p>Далее будет произведен процесс распаковки файлов. После этого необходимо ответить на три вопроса:</p><ol><li>Нужно ли регистрировать ALEPIZ как сервис Windows</li><li>Нужно ли его запускать сразу после установки</li><li>Нужно ли сразу запустить браузер по умолчанию и попытаться подключиться к ALEPIZ</li></ol><div class="row"><div class="col m6 s12"><img class="materialboxed card-panel hoverable" src="images/help.installSetupExtract.png" width="500px"></div><div class="col m6 s12"><img class="materialboxed card-panel hoverable" src="images/help.installSetupOptions.png" width="500px"></div></div><p>В примере на скриншоте на все три вопроса дан положительный ответ, поэтому далее будет запущен
+браузер, в котором отобразится интерфейс ALEPIZ.
+</p><h5>ALEPIZ установлен и полностью готов к работе</h5><img class="materialboxed card-panel hoverable" src="images/help.installBrowser.png" width="1024"><h3>Установка ALEPIZ из архива</h3><p>ALEPIZ можно установить из архива. Для этого необходимо выполнить следующие шаги:</p><ol><li>Загрузите и распакуйте архив в каталог, в котором планируется использовать ALEPIZ.</li><li>Зайдите в систему под пользователем Administrator или запустите cmd под пользователем
+Administrator. Для запуска cmd нужно нажать Win+Q, набрать в поисковой строке "cmd", нажать
+правой кнопкой мыши на появившейся пункт "Command prompt" или "Командная строка" и выбрать
+"Run as administrator" или "Запуск от имени администратора".</li><li>Перейдите в каталог с установленным ALEPIZ, затем в каталог bin\ и запустите install.cmd.
+Скрипт зарегистрирует ALEPIZ как Windows service. Из каталога bin\ запустите start.cmd.
+Скрипт запустит сервис ALEPIZ.</li><li>ALEPIZ ожидает подключения по протоколу HTTP на порту 80. Подключитесь браузером к ALEPIZ.
+</li></ol><h2>Вход в систему и смена паролей</h2><p>После успешного подключения к ALEPIZ необходимо авторизоваться. Для этого требуется
+нажать на иконку <i class="material-icons">account_box</i>, в правом верхнем углу и войти в систему под
+пользователем admin и паролем admin.</p><img class="materialboxed card-panel hoverable" src="images/help.startAuth.png" width="1024"><p>После этого, в целях безопасности, необходимо сменить пароли трех пользователей:
+admin, business и watcher. У пользователя admin установлен пароль admin, у пользователя business -
+пароль business, у пользователя watcher - пароль watcher. У остальных пользователей пароли
+отсутствуют и авторизоваться под ними невозможно.</p><p>Для смены паролей в системном меню Actions, которое находится слева, выберите действие
+Administration\Users editor. Далее выберите нужного пользователя из списка, введите ему новый
+пароль и сохраните изменения, запустив действие на исполнение.</p><img class="materialboxed card-panel hoverable" src="images/help.startChangePass.png" width="1024"><blockquote>Кнопка запуска действия появляется при наведении курсора на элемент
+<a class="btn-floating btn-small waves-effect waves-light orange darken-1"><i class="material-icons large">more_horiz</i></a>,
+который находится в правом нижнем углу. Для выполнения действия необходимо нажать на
+<a class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">play_arrow</i></a>. После
+этого на экране снизу появится окно с информацией о выполнении действия. До тех пор, пока действие
+не запущено, введенные изменения не будут применены.</blockquote><img class="materialboxed card-panel hoverable" src="images/help.startChangePassRun.png" width="1024"><h3>Дополнительная информация</h3><blockquote>Если нажать на иконку <i class="material-icons">help_outline</i> в правом верхнем углу экрана, появится
+помощь по работе с действием, которое отображается в настоящий момент основном окне ALEPIZ.</blockquote><blockquote>Познакомится с интерфейсом системы ALEPIZ можно на странице помощи
+<a href="index.html">Интерфейс ALEPIZ</a>.</blockquote><blockquote>Лог файлы системы находятся в каталоге logs\. После установки, ALEPIZ запускается на 80 порту. Подключиться
+к нему можно по протоколу HTTP, для этого достаточно набрать в адресной строке браузера
+http://&lt;alepiz.server&gt;, где &lt;alepiz.server&gt; - IP адрес или имя сервера, на котором
+установлен ALEPIZ. Поменять TCP порт можно в файле конфигурации ALEPIZ - config\webServer.json,
+изменив параметр httpPort: 80.</blockquote><h3>Запуск ALEPIZ с расширенными правами</h3><p>После установки, сервис ALEPIZ запускается под системным пользователем, у которого нет доступа
+до внешних сетевых ресурсов.
+Если вы планируете использовать ALEPIZ не только для мониторинга, но и для управления
+инфраструктурой, вам может потребоваться дать доступ системе до других серверов в сети.
+Для этого необходимо запустить сервис ALEPIZ под пользователем, у которого есть соответствующие
+права. Это может быть администратор домена или специально созданный пользователь с
+расширенными правами.</p><p>Для запуска сервиса ALEPIZ под другим пользователем необходимо нажать Win+Q, в появившейся
+форме поиска набрать "services", выбрать "Services" или "Службы".</p><p>Запустится приложение для управления сервисами Windows. В списке сервисов необходимо подвести
+курсор к "ALEPIZ" и нажать два раза левой кнопкой мышки.</p><div class="row"><div class="col s12 m4"><img class="materialboxed card-panel hoverable" src="images/help.installRunServices.png" width="300px"></div><div class="col s12 m8"><img class="materialboxed card-panel hoverable" src="images/help.installServicesControl.png" width="700px"></div></div><p>Появится окно управления сервисом. Необходимо остановить сервис, нажав на кнопку "Stop" или
+"Остановить" и дождаться окончания остановки.</p><p>Далее перейти на вкладку "Log ON" или "Вход в систему". Выбрать "This account" или
+"С учетной записью" и ввести имя домена и доменного пользователя, под которым будет
+запускаться ALEPIZ, например, "MY_DOMAIN\Administrator". Ниже ввести пароль пользователя
+и сохранить изменения.</p><p>Затем необходимо вернуться на вкладку General или "Общие" и запустить сервис ALEPIZ, нажав на кнопку
+"Start" или "Запустить".</p><div class="row"><div class="col s12 m7"><img class="materialboxed card-panel hoverable" src="images/help.installServiceStopInProgress.png" width="600px"></div><div class="col s12 m5"><img class="materialboxed card-panel hoverable" src="images/help.installServicesChangeUser.png" width="400px"></div></div><h3>Безопасность</h3><p>Не смотря на то, что в ALEPIZ есть встроенная система авторизации пользователей и система
+распределения прав доступа до объектов, действий и задач, мы рекомендуем
+в качестве дополнительных мер безопасности ограничить доступ до системы сетевыми фильтрами и
+настроить подключения Web браузеров к ALEPIZ по защищенному протоколу HTTPS.</p></div></div></main></body></html>

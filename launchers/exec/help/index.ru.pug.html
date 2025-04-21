@@ -1,0 +1,42 @@
+<!--Copyright © 2020. Alexander Belov. Contacts: <asbel@alepiz.com>
+Created on 2020-4-29 23:19:02--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>exec: запуск внешних программ без использования оболочки</title><link rel="stylesheet" href="../../../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../../../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &amp;lt;asbel@alepiz.com&amp;gt"><script src="../../../materialize-css/dist/js/materialize.js"></script><script src="../../../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>exec</h1><h5 class="light">Запускает программы без использования оболочки
+</h5></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><h2>Описание exec</h2><p>exec запускает программы без использования оболочки. Вывод запущенной программы может быть
+перенаправлен в лог.
+Для запуска скриптов используйте в качестве исполняемого файла соответствующий интерпретатор.
+Например для запуска
+скрипта D:\temp\script.cmd параметр executable должен быть "C:\\Windows\\System32\\cmd.exe", а
+programArgs должен быть ["/c", "D:\\temp\\script.cmd"].</p><h3>Параметры файла конфигурации для действия</h3><p>Параметры должны быть указаны в файле конфигурации для действия, в ключе launcherPrms, например:</p><pre>"launcherPrms": {
+    "executable": ".\\procdump.exe",
+    "timeout": 60000
+},</pre><h3>Описание параметров</h3><ul class="browser-default"><li>executable - полный или абсолютный путь до файла или файл, который требуется запустить.
+Если полный путь не указан, то выполняемый файл ищется в каталоге с действием Alepiz, в котором
+используется launcher.</li><li>host - имя или IP адрес хоста, на котором необходимо выполнить программу. У пользователя,
+из под которого запускается сервис ALEPIZ должны быть права на удаленный запуск программ.
+Если не указан, то 127.0.0.1
+Для запуска программы на удаленном хосте используется команда:</li><pre>powershell.exe Invoke-Command -ComputerName &lt;host&gt; &lt;executable&gt; &lt;programArgs&gt;</pre><li>cwd - рабочий каталог, в который будет осуществлен переход перед запуском программы.
+Может быть указан абсолютный путь относительно корневого каталога Alepiz.
+Если не указан, то это корневой каталог Alepiz.</li><li>programArgs - параметры командной строки
+(строка с параметрами, строка с массивом в JSON или массив).
+Если используется строка с параметрами и в параметре (например, в имени файла) есть пробелы,
+соответствующий параметр необходимо заключить в кавычки.
+Например, -ExecutionPolicy Bypass -File "powershell script.ps1"</li><li>timeout - максимальное время выполнения executable в миллисекундах.
+Если не указан, то бесконечно.</li><li>stdinData - если указано, то значение этого параметра будет передано на stdin запускаемой
+программы</li><li>env - переменные среди и их значения в виде объекта, {&lt;ENV_NAME1&gt;: &lt;VALUE1&gt;, ....}.
+Если не указано, то используется переменные среды с которыми запущен Alepiz</li><li>dontLogStdout - (true|false) не выводить в лог данные из потока stdout</li><li>dontLogStderr - (true|false) не выводить в лог данные из потока stderr</li><li>returnStdout - (true|false) вернуть данные из потока stdout</li><li>returnStderr - (true|false) вернуть данные из потока stderr</li><li>returnCode - (true|false) вернуть exit code</li><li>encodingFrom - кодировка символов в выводе командной оболочки. Если не указан, то 'cp866'</li><li>encodingTo - кодировка символов в выводе в лог ALEPIZ. Если не указан, то 'utf8'</li><li>dontSplitOutput - не разбивать вывод STDIN и STDERR на отдельные строки в логе в случае,
+если программа вернет данные одним блоком</li><li>windowsVerbatimArguments - Корректная обработка кавычек для аргументов командной строки
+в Windows. По умолчанию true.</li></ul><h3>Возвращаемые параметры</h3><p>Лаунчер возвращает объект.
+В зависимости от установки параметров returnStdout, returnStderr, returnCode объект может
+содержать stdout, stderr, exit code процесса</p><pre>{
+    "stdout": <multiline string>,
+    "stderr": <multiline string>,
+    "exitCode": <Number>
+}
+</pre><h3>Параметры, передаваемые из пользовательского интерфейса</h3><p>Если указаны соответствующие параметры в конфигурационном файле действия, параметры, переданные
+из пользовательского интерфейса будут проигнорированы. Можно использовать параметры cwd,
+stdinData, programArgs. Параметры полностью аналогичны параметрам из файла конфигурации для
+действия. Для передачи параметров из пользовательского интерфейса необходимо создать
+элементы HTML типа input с аттрибутом name или id соответствующем названию параметра.
+Например,
+&lt;input type=&quot;hidden&quot; id=&quot;programArgs&quot; value=&quot;[\&quot;-a 1\&quot;, \&quot;-b 2\&quot;, \&quot;-c\&quot;]&quot;&gt;
+или
+&lt;input type=&quot;text&quot; name=cwd value=&quot;C:\\windows&quot;&gt;</p></div></div></main></body></html>

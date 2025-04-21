@@ -1,0 +1,48 @@
+<!--Copyright © 2020. Alexander Belov. Contacts: <asbel@alepiz.com>
+Created on 2020-5-17 19:02:53--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>Zabbix passive: получает данные от Zabbix агентов в пассивном режиме</title><link rel="stylesheet" href="../../../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../../../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &lt;asbel@alepiz.com&gt;"><script src="../../../materialize-css/dist/js/materialize.js"></script><script src="../../../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Zabbix passive</h1><h5 class="light">Получает данные от Zabbix агентов в пассивном режиме работы агентов</h5></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><h3>Описание Zabbix passive</h3><p>Сборщик используется для получения данных от Zabbix агентов, работающих в пассивном режиме.
+Пассивный режим работы Zabbix агента означает, что ALEPIZ инициирует сбор данных с Zabbix
+агента, подключаясь на его IP адрес и порт и запрашивая требуемые данные.</p><h3>Throttling</h3><p>Для того, чтобы уменьшить нагрузку на ALEPIZ и не засорять базу данных, в сборщике
+реализована система пропусков для одинаковых или похожих значений. Например, если
+состояние Windows сервиса длительное время раз в 30 секунд возвращает 0 (запущен), то сборщик
+может не отправлять все эти значения в ALEPIZ, а отправлять только часть из них, пропуская промежуточные
+данные. Как только значение поменяется на 6 (остановлен), это значение сразу же будет отправлено
+в систему. Кроме точного сравнения значений для пропуска, можно использовать так же отклонения, когда
+следующее значение почти такое же, как и предыдущее
+(параметр "Values deviation for skip 0-100%. 0 - values must be equal (throttling)").
+Например, если объем свободной памяти за 30
+секунд изменился не более чем на 5%, значение тоже не будет передано в ALEPIZ.</p><h3>Массив значений</h3><p>Если коллектор вернул массив значений (например, в случае обработки данных в формате
+<a href="https://www.zabbix.com/documentation/current/ru/manual/discovery/low_level_discovery" target="__blank">Zabbix LLD - Low Level Discovery</a>),
+происходит следующее:</p><ul class="browser-default"><li>Весь полученный массив значений преобразуется в текст JSON и сохраняется в базу с историей значений</li><li>Если у счетчика есть зависимые счетчики, то ALEPIZ будет вызывать их столько раз, сколько значений
+получено в массиве и каждый раз передавать в качестве переменной %:PARENT_VALUE:% новое значение
+из массива значений.</li></ul><p>То есть если, например, был получен массив со списком сервисов, работающих на платформе, в базу будет
+записан весь этот список в формате JSON, а каждый из зависимых счетчиков будет запущен столько раз, сколько
+сервисов присутствует в массиве и ему по очереди будут переданы сервисы этого массива.</p><h3>LLD (Low Level Discovery)</h3><p>Технология LLD была разработана компанией
+<a href="https://www.zabbix.com/" target="_blank">Zabbix SIA</a> и предназначена для обработки
+данных, полученных в виде массива. Подробное описание технологии можно посмотреть на сайте
+разработчика
+<a href="https://www.zabbix.com/documentation/current/ru/manual/discovery/low_level_discovery" target="__blank">Zabbix LLD - Low Level Discovery</a>.
+Смысл технологии заключается в том, что zabbix-agent передает серверу текстовый JSON с
+описанием массива данных.
+Далее, если в счетчике установлен ключ "returns LLD (Low Level Discovery)", производится
+преобразование текста JSON в объект. После чего он обрабатывается в соответствии с правилами обработки
+массивов ALEPIZ, т.е. в зависимые счетчики через переменную %:PARENT_VALUE:% будут переданы
+по очереди все элементы этого массива.</p><h3>Параметры</h3><ul class="browser-default"><li>Zabbix agent IP address - IPv4 или IPv6 адрес или имя хоста, с которого требуется получить данные.</li><li>Zabbix agent TCP PORT - TCP порт Zabbix агента</li><li>Zabbix item key - ключ Zabbix агента. Информацию о ключах Zabbix агента можно получить
+на сайте компании <a href="https://www.zabbix.com/" target="_blank">Zabbix SIA</a></li><li>Parameters for Zabbix item key - параметры ключа Zabbix агента. Информацию о параметрах
+Zabbix агента можно получить на сайте компании
+<a href="https://www.zabbix.com/" target="_blank">Zabbix SIA</a></li><li>Source IP address or host name - IPv4 или IPv6 адрес, с которого требуется установить
+соединение к агенту (необязательный параметр)</li><li>returns LLD (Low Level Discovery) data - По данному ключу будет возвращен JSON объект
+в виде Low Level Discovery. Технология разработана компанией Zabbix SIA и используется для
+обнаружения объектов мониторинга.</li><li>Parse CSV and return LLD data - При включении этого параметра сборщик преобразует данные,
+полученные в CSV формате, в объект LDD</li><li>Return only numeric values - Указывает сборщику, что необходимо принимать только данные в
+виде числовых значений. Все остальные значения, возвращаемые Zabbix агентом, будут игнорироваться.</li><li>Number of values that can be skipped (throttling) - Максимальное количество похожих значений,
+которые не будут передаваться в ALEPIZ. Если 0, то пропуск значений отключается для этого счетчика.</li><li>Time interval when values can be skipped (throttling) - Максимальный интервал времени
+(в миллисекундах), в течение которого похожие значения не будут передаваться в ALEPIZ.
+Если 0, то пропуск значений отключается для этого счетчика.</li><li>Values deviation for skip 0-100%. 0 - values must be equal (throttling) - процент отклонений,
+для значений. Если следующее полученное значение отличается от предыдущего не более, чем на
+этот процент и включен пропуск значений, то значение не будет передано в ALEPIZ.</li></ul><p>Пример параметров счетчика, используемого для сбора данных о свободной памяти сервера:</p><img class="materialboxed card-panel hoverable" src="images/help.parameters1.png" width="1024"><p>Пример параметров счетчика, используемого для сбора данных о сервисах, работающих на сервере:</p><img class="materialboxed card-panel hoverable" src="images/help.parameters2.png" width="1024"><h3>Возвращаемое значение</h3><p>Сборщик возвращает данные, которые вернул Zabbix агент. Подробную информацию о возвращаемых
+данных и об объектах LDD можно получить на сайте компании
+<a href="https://www.zabbix.com/" target="_blank">Zabbix SIA</a></p><h3>О Zabbix</h3><p>Zabbix agent разрабатывается компанией <a href="https://www.zabbix.com/" target="_blank">Zabbix SIA</a>,
+выпускающей решения для мониторинга. Zabbix агент можно скачать как с сайта компании
+<a href="https://www.zabbix.com/ru/download_agents" target="_blank">Zabbix SIA</a>,
+так и специально адаптированный пакет под ALEPIZ со страницы
+<a href="https://alepiz.com/download/" target="_blank">https://alepiz.com/download/</a>.</p></div></div></main></body></html>

@@ -1,0 +1,41 @@
+<!--Copyright © 2022. Alexander Belov. Contacts: <asbel@alepiz.com>--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>Настройки Web сервера webServer.json</title><link rel="stylesheet" href="../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &amp;lt;asbel@alepiz.com&amp;gt"><script src="../materialize-css/dist/js/materialize.js"></script><script src="../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Описание настроек для Веб-сервера webServer.json</h1></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><ul class="browser-default"><li>disable (true|false) - с помощью этой настройки можно отключить web сервер, например для
+распределения нагрузки между несколькими экземплярами ALEPIZ. По умолчанию false.</li><li>httpPort или port - TCP порт для работы HTTP сервера. По умолчанию 80</li><li>httpsPort - TCP порт для работы HTTPS сервера. По умолчанию 443.
+Порт может быть задан переменными окружения app_port или PORT. Переменные окружения
+Имеют приоритет перед настройкой.</li><li>childrenNumber - количество потоков, которые будут формировать список
+объектов и действий в зависимости от прав пользователей, настроек действий
+и установленных фильтров объектов.
+По умолчанию 20.</li><li>downloadWebServerMaxSize - Максимальный объем данных, который можно получить с Веб-сервера.
+К параметру можно добавлять единицы измерения (Kb, Mb, Gb). По умолчанию "100gb".</li><li>sessionMaxAgeInDays - время жизни сессии для пользователя в днях, после которого пользователю
+будет предложено повторно ввести свои учетные данные. По умолчанию 7.</li><li>parameterLimit - максимальное число параметров, которое можно передать серверу
+при выполнении HTTP запроса. По умолчанию 100000,</li><li>privatePath - каталог с SSL ключами для сервера HTTPS и файлом для шифрования cookies.
+По умолчанию private. Если не существует, будет создан при старте сервиса</li><li>webSecretFile файл JSON, содержащий ключ для шифрования cookies в формате
+{"cookieSecret":"<ключ>"}. По умолчанию webSecret.json.
+Файл находится в каталоге, установленном в настройке privatePath. Если при старте сервиса файл
+отсутствует, он будет создан автоматически.</li><li>httpsKeyFile - SSL ключ для шифрования пользовательских подключений к HTTPS серверу.
+По умолчанию key.pem. Файл находится в каталоге, установленном в настройке privatePath.</li><li>httpsCertFile - SSL сертификат для шифрования пользовательских подключений к HTTPS серверу.
+По умолчанию cert.pem. Файл находится в каталоге, установленном в настройке privatePath.</li><li>sessionDB - относительный путь и файл базы банных SQLite, в которой хранятся пользовательские сессии.
+По умолчанию db/session.db. Расширение .db обязательно.</li><li>sessionTableName - имя таблицы в базе данных sessionDB, в которой хранятся пользовательские
+сессии. По умолчанию session.</li><li>cacheExpirationTime - время в мс сохранения в кэша списка объектов, прав на действия,
+конфигураций действий и других данных, требуемых для отрисовки системного меню с объектами
+и действиями. По умолчанию 60000</li><li>downloadFileRestrictions - настройка разрешений для скачивания файлов действиями.
+Для скачивания файла в действии необходимо создать HTTP запрос
+GET /downloadFile/?filename=&lt;полный путь до файла&gt;
+Содержит массив объектов с разрешениями:</li><ul class="browser-default"><li>description - описание</li><li>regExp - регулярное выражение, с которым будет сравниваться имя файла для скачивания.
+Если имя файла соответствует регулярному выражению, проверка на имя файла будет пройдена</li><li>roles - массив с перечнем ролей пользователей, которым можно скачивать файл</li><li>maxSize - максимальный размер файла, который можно скачивать. Можно указывать суффиксы
+Kb, Mb, Gb, Tb. Если не указано,
+используется глобальная настройка downloadWebServerMaxSize. Если и она не указана, то
+используется размер в 1Gb</li><li>fileNameRoles - массив с правилами по которым формируется имя файла для сохранения.
+Правила в порядке следования в массиве применяются к исходному имени файла.
+Для изменения имени файла используется функция JavaScript replace(&lt;src&gt;, &lt;dest&gt;).
+Поиск производится с флагами "ig".</li><ul class="browser-default"><li>src - регулярное выражение с описанием, что нужно заменить в имени файла</li><li>dest - выражение с описанием на что нужно заменить имя файла.</li></ul></ul></ul><h4>Пример функции для скачивания файла</h4><p>Функция должны вызываться по какому-то событию в web интерфейсе. Например, при нажатии на
+кнопку "Скачать"</p><pre>function downloadFile (fileName) {
+    let hiddenIFrameID = 'hiddenDownloader',
+    iframe = document.getElementById(hiddenIFrameID);
+    if (iframe === null) {
+        iframe = document.createElement('iframe');
+        iframe.id = hiddenIFrameID;
+        iframe.style.display = 'none';
+        document.body.appendChild(iframe);
+    }
+    iframe.src = '/downloadFile/?filename=' + encodeURIComponent(fileName);
+}</pre></div></div></main></body></html>

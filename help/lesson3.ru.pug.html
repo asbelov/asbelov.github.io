@@ -1,0 +1,86 @@
+<!--Copyright © 2020. Alexander Belov. Contacts: <asbel@alepiz.com>
+Created on 2020-5-19 17:00:12--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>#3 Автоматическое обнаружение хостов в сети</title><link rel="stylesheet" href="../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &amp;lt;asbel@alepiz.com&amp;gt"><script src="../materialize-css/dist/js/materialize.js"></script><script src="../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Пример создания автоматического обнаружения хостов</h1></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><h2>Подготовка: создание групп объектов</h2><p>Создадим структуру объектов для того, чтобы в дальнейшем было удобно с ними работать. Для этого
+с помощью действия Configuration\Objects creator необходимо последовательно создать три
+вложенных друг в друга объекта с именами "System objects" => "Discovery" =>
+"Network discovery", как на скриншотах ниже. Для увеличения скриншота можно нажать на него мышкой.
+Окно справки так же можно развернуть на весь экран, чтобы скриншоты были больше.</p><div class="row"><div class="col s12 m4"><img class="materialboxed card-panel hoverable" src="images/help.discoveryObjCreate1.png" width="300"></div><div class="col s12 m4"><img class="materialboxed card-panel hoverable" src="images/help.discoveryObjCreate2.png" width="300"></div><div class="col s12 m4"><img class="materialboxed card-panel hoverable" src="images/help.discoveryObjCreate3.png" width="300"></div></div><h2>Создание счетчика для обнаружения хостов</h2><h4>Создание счетчика</h4><p>Создаем первый счетчик, который будет искать хосты в диапазоне адресов 10.172.0.1-10.172.0.251.
+Для этого сначала необходимо выбрать действие Configuration\Counter settings, в нем создать
+группу Discovery для счетчиков этого типа, с помощью кнопки
+<button class="btn-floating btn-small"><i class="material-icons">playlist_add</i></button> рядом с полем Counter group.
+Появится форма для создания группы, как на первом скриншоте.</p><p>После этого нужно заполнить остальные параметры счетчика, как на втором скриншоте и выполнить действие.
+Счетчик будет называться "D1: net discovery 10.172.0.1-10.172.0.251". Буква "D" в
+названии помогает определить его принадлежность к Discovery.
+Цифра "1" является так же информационной составляющей и показывает очередность вычисления счетчика
+в объекте, которая определяется зависимостями счетчиков друг от друга.
+В качестве сборщика будем использовать Objects discovery, который собирает информацию о хостах
+в сети. Опрашивать хосты будем всеми возможными для сборщика Objects discovery способами:
+с помощью Ping по ICMP, запросами имени хостов в DNS, опросом по протоколу SNMP и
+опросом Zabbix агента.</p><div class="row"><div class="col s12 m6"><img class="materialboxed card-panel hoverable" src="images/help.discoveryCntCreate0Grp.png" width="450"></div><div class="col s12 m6"><img class="materialboxed card-panel hoverable" src="images/help.discoveryCntCreate1.png" width="450"></div></div><h4>Просмотр собранных данных</h4><p>После того, как ALEPIZ загрузит новые данные в кэш (не более 5 минут), он начнет собирать
+информацию о хостах.
+Посмотреть результат работы счетчика можно, выбрав действие Monitoring\Data browser, объект
+Network discovery и в Data browser - счетчик "D1: net discovery 10.172.0.1-10.172.0.251".
+В таблице под графиком появятся данные по опросу хостов в сети.</p><div class="row"><div class="col s12 m7"><img class="materialboxed card-panel hoverable" src="images/help.discoveryDataBrowser.png" width="500"></div><div class="col s12 m5"><img class="materialboxed card-panel hoverable" src="images/help.discoveryDataBrowser1.png" width="400"></div></div><h2>Разбор полученных данных и определение переменных</h2><h4>Создание счетчика для разбора данных</h4><p>Создадим счетчик, зависимый от счетчика "D1: net discovery 10.172.0.1-10.172.0.251".
+Он будет производить разбор полученных при обнаружении данных.
+Счетчик не будет выполнять никаких действий и нужен только для вычислений.
+Поэтому в качестве сборщика для него установим "Constant", который ничего не возвращает.
+Если в дальнейшем потребуется создать счетчики для обнаружения хостов в других сетях,
+мы так же можем добавить зависимость от них для текущего счетчика.
+В результате, он будет концентрировать все данные по обнаружению хостов во всех сетях.
+Все последующие счетчики можно будет делать зависимыми от этого счетчика - концентратора.
+Назовем его "D2: Defining variables for a discovered host".</p><p>При обнаружении хоста счетчиком "D1: net discovery 10.172.0.1-10.172.0.251" мы получаем примерно такие данные:</p><div class="card-panel"><pre>{
+    "hostname":"alepiz.com",
+    "SNMP":"Hardware: Intel64 Family 6 Model 44 Stepping 2 AT/AT COMPATIBLE - Software: Windows Version 6.3 (Build 14393 Multiprocessor Free)",
+    "ping":1,
+    "IP":"10.172.0.10"
+}</pre></div><p>Из них нам потребуется "hostname", "IP" и "SNMP". Создадим переменные:</p><ul class="browser-default"><li>FULL_HOSTNAME = getValueFromJSONStr( %:PARENT_VALUE:%, "hostname" )</li><li>IP_ADDRESS = getValueFromJSONStr( %:PARENT_VALUE:%, "IP" )</li><li>SNMP_INFO = getValueFromJSONStr( %:PARENT_VALUE:%, "SNMP" )</li><li>HOST_NAME = toUpperCase( replaceRE(%:FULL_HOSTNAME:%, "^([^\.]+)\..+$", "$1") )</li><li>HOST_DESCRIPTION = toUpperCase(%:FULL_HOSTNAME:%) + ": " + ifElse( %:SNMP_INFO:%, %:SNMP_INFO:%, "SNMP not available" )</li></ul><p>Первые три переменные FULL_HOSTNAME, IP_ADDRESS и SNMP_INFO вычисляются с помощью функции
+getValueFromJSONStr()
+Значением переменной PARENT_VALUE является результат, возвращаемый после выполнения родительского счетчика
+"D1: net discovery 10.172.0.1-10.172.0.251". Пример такого результата представлен выше.
+Второй аргумент функции - это ключ из объекта, для которого требуется
+извлечь данные.</p><p>Значение переменной HOST_NAME вычисляется из переменной FULL_HOSTNAME путем вырезания из имени
+хоста - домена (всех символов после первой точки в имени хоста) и перевода символов в
+верхний регистр. Например alepiz.com => ALEPIZ</p><p>Значение переменной HOST_DESCRIPTION создается из значения переменной
+FULL_HOSTNAME в верхнем регистре к которой добавляется строка ": " и, если хост откликнулся по
+протоколу SNMP, то строка с информацией, которую он передал. Если не откликнулся, то строка
+"SNMP not available". Например, "ALEPIZ.COM: Hardware: Intel64 Family 6 Model 44 Stepping 2
+AT/AT COMPATIBLE - Software: Windows Version 6.3 (Build 14393 Multiprocessor Free)"</p><p>На вкладке Counter включим для этого счетчика признак "Enable debug", чтобы в дальнейшем
+иметь возможность посмотреть процесс вычисления переменных. В качестве параметра сборщика
+"This value will be returned by collector" установим строку
+%:FULL_HOSTNAME:% + "(" + %:HOST_NAME:% + "): " + %:IP_ADDRESS:% + ": " + %:HOST_DESCRIPTION:%
+по которой можно будет определить значения некоторых переменных.
+Так же установим параметры "Keep history" и "Keep trends"
+в 0 дней, чтобы данные по этому счетчику не занимали места и не
+записывались в базу с историческими значениями.</p><p>На вкладке Links установим зависимость от счетчика "D1: net discovery 10.172.0.1-10.172.0.251"
+и объекта "Network discovery" и в качестве условия для вычисления счетчика поставим наличие
+значения в переменной FULL_HOSTNAME и отклик хоста по протоколу ICMP (ping):
+"%:FULL_HOSTNAME:% && getValueFromJSONStr( %:PARENT_VALUE:%, "ping" ) == 1"</p><p>Пример заполнения полей действия Configuration\Counter settings для счетчика
+"D2: Defining variables for a discovered host" для вкладок Counters, Links и Variables:</p><div class="row"><div class="col s12 m4"><img class="materialboxed card-panel hoverable" src="images/help.discoveryCntCreateCnt2.png" width="300"></div><div class="col s12 m4"><img class="materialboxed card-panel hoverable" src="images/help.discoveryCntCreateLnk2.png" width="300"></div><div class="col s12 m4"><img class="materialboxed card-panel hoverable" src="images/help.discoveryCntCreateVar2.png" width="300"></div></div><h4>Просмотр данных по счетчику</h4><h5>Просмотр полученных данных в действии Data browser</h5><p>Примерно через 5 минут ALEPIZ начнет обрабатывать данные и вычислять переменные счетчика.</p><p>Сначала посмотрим данные через действие Monitoring\Data browser. Для этого выберем объект
+Network discovery, выберем действие Monitoring\Data browser и в действии выберем все доступные
+счетчики. В таблице с данными (под графиком) можно увидеть процесс обнаружения хостов:</p><img class="materialboxed card-panel hoverable" src="images/help.discoveryDataBrowser2.png" width="1024"><h5>Просмотр процесса вычисления переменных в действии Variables</h5><p>Для просмотра процесса вычисления переменных, выберем объект
+Network discovery и запустим действие Development\Variables. В элементе Counter selector
+выбираем счетчик "D2: Defining variables for a discovered host":</p><img class="materialboxed card-panel hoverable" src="images/help.discoveryVars1.png" width="1024"><p>Вторая строка содержит больше информации, чем все остальные. Это означает, что в этот момент
+система вычисляла большее количество переменных и произошло обнаружение нового хоста.
+Нажмем на эту строку для получения информации о вычислении переменных и получим следующую таблицу:</p><img class="materialboxed card-panel hoverable" src="images/help.discoveryVars2.png" width="1024"><p>Бирюзовым цветом выделена строка с информацией о вычислении условия из Update event. Этот цвет
+означает, что условие было выполнено и произошло вычисление значения счетчика. Если нажать
+на строку "12 variables. Unresolved variables: none", можно увидеть значения всех переменных,
+вычисленных для счетчика. Так же можно увидеть, что
+вычисление условия "%:FULL_HOSTNAME:% && getValueFromJSONStr( %:PARENT_VALUE:%, "ping" ) == 1"
+в данном случае вернуло результат "true" и все вычисления были выполнены за 3 цикла.</p><img class="materialboxed card-panel hoverable" src="images/help.discoveryVars3.png" width="1024"><p>В конце таблицы находится параметр сборщика - строка из переменных
+"%:FULL_HOSTNAME:% + "(" + %:HOST_NAME:% + "): " + %:IP_ADDRESS:% + ": " + %:HOST_DESCRIPTION:%".
+В четвертой колонке Result можно увидеть вычисленное значение:</p><img class="materialboxed card-panel hoverable" src="images/help.discoveryVars4.png" width="1024"><h2>Создание счетчика для выполнения задачи</h2><p>Создадим счетчик, который автоматически будет выполнять задачу по созданию обнаруженных хостов.
+Для этого нам понадобится задача, созданная в уроке
+<a href="createTask.pug.html">"#2 Создание задачи для автоматизации"</a>.
+Открываем действие Configuration\Task maker, выбираем группу "Discovery tasks" и смотрим идентификатор
+задачи. Он находится перед названием задачи, в нашем случае это #1.</p><img class="materialboxed card-panel hoverable" src="images/help.taskNewSavedTask.png" width="1024"><p>С помощью действия Configuration\Counter setting создаем счетчик, который будет выполнять задачу
+по созданию объекта. Назовем его "D3: Create an object". В качестве сборщика выбираем
+"Task runner" и в параметре "Task ID" указываем идентификатор задачи, которую требуется
+запускать: "1".</p><p>Во вкладке Links нужно сделать зависимость от счетчика
+"D2: Defining variables for a discovered host" и объекта "Network discovery". В качестве условия
+для Update event установим проверку существования объекта: "!isObjectExist( %:HOST_NAME:% )".
+Перед функцией isObjectExist() стоит отрицание "!", то есть будем выполнять задачу только если
+такого хоста не существует. Все необходимые значения переменных мы получим из родительского
+счетчика.</p><div class="row"><div class="col s12 m6"><img class="materialboxed card-panel hoverable" src="images/help.discoveryCntCreateCnt3.png" width="450"></div><div class="col s12 m6"><img class="materialboxed card-panel hoverable" src="images/help.discoveryCntCreateLnk3.png" width="450"></div></div><p>После обновления данных в кэше в процессе обнаружения новых хостов в сети, будут создаваться
+объекты. Их можно будет посмотреть в объекте "Servers". Если запустить действие
+Configuration\Objects Properties для созданных объектов,
+можно увидеть, что свойство HOST имеет значение IP адреса
+объекта.</p><img class="materialboxed card-panel hoverable" src="images/help.discoveryObjProp.png" width="1024"><p></p></div></div></main></body></html>

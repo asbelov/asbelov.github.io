@@ -1,0 +1,158 @@
+<!--Copyright © 2020. Alexander Belov. Contacts: <asbel@alepiz.com>
+Created on 2020-5-8 22:48:12--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>Использование и развитие ALEPIZ</title><link rel="stylesheet" href="../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &amp;lt;asbel@alepiz.com&amp;gt"><script src="../materialize-css/dist/js/materialize.js"></script><script src="../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1" data-toc="false"></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><div class="row"><div class="col s12 l7"><h1>Использование наших продуктов</h1><p>Вы можете безвозмездно пользоваться всеми нашими продуктами.
+ALEPIZ распространяется как свободное программное обеспечение с открытым исходным кодом.
+Команда ALEPIZ надеется, что использование наших продуктов принесет пользу Вам
+и Вашему бизнесу.</p><h6>Спасибо Вам, что Вы с нами!</h6><h2>Участие в развитии</h2><p>ALEPIZ является некоммерческим программным продуктом.
+У нас нет ресурсов для рекламы и распространения информации о проекте, мы занимаемся только
+разработкой и стараемся сделать ALEPIZ лучше.
+Нашей команде будет приятно, если Вы выберите любой вариант участия в развитии проекта,
+например:</p><ul class="browser-default"><li>Начните изучать ALEPIZ и использовать его в Вашей инфраструктуре.</li><li>Посоветуйте ALEPIZ Вашим коллегам, друзьям и знакомым.</li><li>Распространяйте информацию об ALEPIZ в форумах, социальных сетях и других
+средствах массовых коммуникаций и информации.</li><li>Опубликуйте на Интернет площадках статью о том, как Вы используете ALEPIZ.</li><li>Займитесь разработкой внешних модулей ALEPIZ, таких как действия, лаунчеры,
+сборщики данных, средств для коммуникации и пр.</li><li>Пришлите нам изменения, которые по Вашему мнению могут улучшить работу системы.</li><li>Помогите портировать ALEPIZ на другие платформы.</li></ul><h6><a href="mailto:development@alepiz.com?subject=[Share page]">Напишите, как бы Вы хотели участвовать в развитии ALEPIZ. Мы будем рады Вашим отзывам!</a></h6><!--h1 Обратная связь--><!--div.rowdiv(style="margin:0").input-field.col.l6.m6.s12
+    i.material-icons.prefix account_box
+    input(type="text" data-length="100")#fullName.validate.has-character-counter
+    label(for="fullName") Как Вас зовут
+    span(data-error="Введенное имя слишком длинное" data-success="Спасибо, что вы представились").helper-text &nbsp;
+div(style="margin:0").input-field.col.l5.m5.s10
+    i.material-icons.prefix email
+    input(type="email" data-length="100")#email.validate.has-character-counter
+    label(for="email") Ваш email
+    span(data-error="Введен некорректный Email" data-success="Email адрес корректный").helper-text &nbsp;
+div(style="margin:0").input-field.col.l11.s12
+    i.material-icons.prefix feedback
+    textarea(data-length="4096" placeholder="Как Вы хотите участвовать в развитии ALEPIZ")#feedbackText.materialize-textarea.validate.has-character-counter
+    label(for="feedbackText") Текст сообщения
+    span(data-error="Текст сообщения слишком длинный" data-success="Спасибо за обратную связь").helper-text &nbsp;
+div(style="margin-top:0;margin-bottom:0;").col.l11.m11.s11.offset-s1.right-align
+    a#sendFeedback.waves-effect.waves-light.btn
+        i.material-icons.left send
+        span Отправить--><!--div.show-on-site-only.hide--><!--divh6.
+    Если Вы хотите помочь развитию проекта, воспользуйтесь любой из представленных ниже форм:
+h1
+    a(href="https://www.patreon.com/bePatron?u=70055226" data-patreon-widget-type="become-patron-button") Become a Patron!
+    script(async src="https://c6.patreon.com/becomePatronButton.bundle.js")
+//div
+    div#smart-button-container
+        div(style="text-align: center")
+            label(for="description")
+            input(type="text" name="descriptionInput" maxlength="127" value="")#description
+        p(style="visibility: hidden; color:red; text-align: center;")#descriptionError Please enter a description
+        div(style="text-align: center")
+            label(for="amount") Gratitude
+            input(name="amountInput" type="number" value="")#amount
+            span USD
+        p(style="visibility: hidden; color:red; text-align: center;")#priceLabelError Please enter a price
+        div(style="text-align: center; display: none;")#invoiceidDiv
+            label(for="invoiceid")
+            input(name="invoiceid" maxlength="127" type="text" value="")#invoiceid
+        p(style="visibility: hidden; color:red; text-align: center;")#invoiceidError Please enter an Invoice ID
+        div(style="text-align: center; margin-top: 0.625rem;")#paypal-button-container
+    script(src="https://www.paypal.com/sdk/js?client-id=AUBqOG5dIr78j96jCGDw9JuER2XTb4QT1p9cZnydyXM1ogbz9X1nEesKFxfWmL_AbUN6UPYDgI7XCqU-&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory")
+    script.
+        function initPayPalButton() {
+            var description = document.querySelector('#smart-button-container #description');
+            var amount = document.querySelector('#smart-button-container #amount');
+            var descriptionError = document.querySelector('#smart-button-container #descriptionError');
+            var priceError = document.querySelector('#smart-button-container #priceLabelError');
+            var invoiceid = document.querySelector('#smart-button-container #invoiceid');
+            var invoiceidError = document.querySelector('#smart-button-container #invoiceidError');
+            var invoiceidDiv = document.querySelector('#smart-button-container #invoiceidDiv');
+
+            var elArr = [description, amount];
+
+            if (invoiceidDiv.firstChild.innerHTML.length > 1) {
+                invoiceidDiv.style.display = "block";
+            }
+
+            var purchase_units = [];
+            purchase_units[0] = {};
+            purchase_units[0].amount = {};
+
+            function validate(event) {
+                return event.value.length > 0;
+            }
+
+            paypal.Buttons({
+                style: {
+                    color: 'gold',
+                    shape: 'rect',
+                    label: 'paypal',
+                    layout: 'vertical',
+
+                },
+
+                onInit: function (data, actions) {
+                    actions.disable();
+
+                    if (invoiceidDiv.style.display === "block") {
+                        elArr.push(invoiceid);
+                    }
+
+                    elArr.forEach(function (item) {
+                        item.addEventListener('keyup', function (event) {
+                            var result = elArr.every(validate);
+                            if (result) {
+                                actions.enable();
+                            } else {
+                                actions.disable();
+                            }
+                        });
+                    });
+                },
+
+                onClick: function () {
+                    if (description.value.length < 1) {
+                        descriptionError.style.visibility = "visible";
+                    } else {
+                        descriptionError.style.visibility = "hidden";
+                    }
+
+                    if (amount.value.length < 1) {
+                        priceError.style.visibility = "visible";
+                    } else {
+                        priceError.style.visibility = "hidden";
+                    }
+
+                    if (invoiceid.value.length < 1 && invoiceidDiv.style.display === "block") {
+                        invoiceidError.style.visibility = "visible";
+                    } else {
+                        invoiceidError.style.visibility = "hidden";
+                    }
+
+                    purchase_units[0].description = description.value;
+                    purchase_units[0].amount.value = amount.value;
+
+                    if (invoiceid.value !== '') {
+                        purchase_units[0].invoice_id = invoiceid.value;
+                    }
+                },
+
+                createOrder: function (data, actions) {
+                    return actions.order.create({
+                        purchase_units: purchase_units,
+                    });
+                },
+
+                onApprove: function (data, actions) {
+                    return actions.order.capture().then(function (orderData) {
+
+                        // Full available details
+                        console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+
+                        // Show a success message within this page, e.g.
+                        const element = document.getElementById('paypal-button-container');
+                        element.innerHTML = '';
+                        element.innerHTML = '<h3>Thank you for your payment!</h3>';
+
+                        // Or go to another URL:  actions.redirect('thank_you.html');
+
+                    });
+                },
+
+                onError: function (err) {
+                    console.log(err);
+                }
+            }).render('#paypal-button-container');
+        }
+        initPayPalButton();
+--></div><div class="col l5 hide-on-med-and-down"><img src="../images/flowers.jpg"></div></div></div></div></main></body></html>

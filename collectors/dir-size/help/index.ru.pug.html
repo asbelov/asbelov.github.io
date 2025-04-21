@@ -1,0 +1,13 @@
+<!--Copyright © 2020. Alexander Belov. Contacts: <asbel@alepiz.com>
+Created on 2020-03-22 14:02:00--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>Directory size: вычисляет размер каталогов</title><link rel="stylesheet" href="../../../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../../../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &lt;asbel@alepiz.com&gt;"><script src="../../../materialize-css/dist/js/materialize.js"></script><script src="../../../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Directory size</h1><h5 class="light">Directory size используется для вычисления размера каталогов.</h5></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><h3>Описание Directory size</h3><p>Directory size используется для вычисления размера заданных каталогов. Можно задавать исключения, как
+в текстовом виде, так и в виде регулярного выражения.
+Для снижения нагрузки на систему, после вычисления размера каждого файла, выполнение коллектора
+приостанавливается на заданное время.</p><h3>Параметры</h3><ul class="browser-default"><li>Directory names (comma separated) - список каталогов для подсчета размера (через запятую).
+Пробелы в начале и конце названия каждого каталога будут удалены.</li><li>Excluded directories (comma separated) - список каталогов и файлов, которые будут исключаться
+из подсчета размера (через запятую). Пробелы в начале и конце названия каждого каталога будут удалены.</li><li>Excluded directories in regExp format - каталоги и файлы для исключения написаны в формате регулярны выражений.
+Если отключено, то это точные значений.</li><li>Sleep periodically for reduce load (ms) - Для снижения нагрузки на систему, после вычисления
+размера каждого файла, выполнение коллектора приостанавливается на заданное время в миллисекундах.</li><li>Maximum execution time after which a warning will appear in the log (ms) - Максимальное время выполнения
+вычисления, после которого в лог файл будет добавлено предупреждение.</li><li>Do not output errors to the log file - не выводить ошибки работы с файлами и каталогами
+в лог файл. В некоторых случаях отсутствие каталога или файла, с которым работает коллектор
+может быть нормой и ошибки будут засорять лог файлы. В этом случае имеет смысл отключить
+вывод ошибок</li></ul><h3>Возвращаемое значение</h3><p>Размер каталогов в байтах.</p></div></div></main></body></html>

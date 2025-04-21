@@ -1,0 +1,11 @@
+<!--Copyright © 2023. Alexander Belov. Contacts: <asbel@alepiz.com>
+Created on 07.07.2023, 17:47:25--><!DOCTYPE html><html lang="ru" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><title>Run powershell script: запуск скрипта или команды powershell</title><link rel="stylesheet" href="../../../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../../../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &lt;asbel@alepiz.com&gt;"><script src="../../../materialize-css/dist/js/materialize.js"></script><script src="../../../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Run powershell script</h1><h5 class="light">Запускает скрипт или команду powershell
+</h5></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><h2>Описание действия</h2><p>Действие Run powershell script служит для запуска скрипта или команды powershell. Можно
+указать ключи powershell, рабочий каталог и данные, которые будут переданы на STDIN
+запускаемой команды или скрипта. В качестве примера запускается скрипт "print data.ps1"
+из каталога действия Run powershell script.
+</p><h5>Возвращаемое значение: Объект {stdout: &lt;stdout&gt;, stderr: &lt;stderr&gt;, exitCode: &lt;exitCode&gt;}
+</h5><h2>Параметры</h2><ul class="browser-default"><li>Arguments for powershell.exe - параметры командной строки, которые будут переданы
+powershell.exe. Если в параметре присутствует пробел, параметр необходимо указать в кавычках</li><li>Working dir - рабочий каталог из которого будет запущен powershell.exe. Можно указать
+относительный путь. В этом случае он будет вычисляться относительно корневого каталога
+ALEPIZ.</li><li>STDIN data - данные, которые будут переданы на STDIN скрипта или команды</li></ul></div></div></main></body></html>

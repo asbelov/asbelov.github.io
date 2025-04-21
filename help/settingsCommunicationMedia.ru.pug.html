@@ -1,0 +1,22 @@
+<!--Copyright © 2022. Alexander Belov. Contacts: <asbel@alepiz.com>--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>Настройки для модулей информирования communicationMedia.json</title><link rel="stylesheet" href="../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &amp;lt;asbel@alepiz.com&amp;gt"><script src="../materialize-css/dist/js/materialize.js"></script><script src="../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Описание настроек модулей информирования communicationMedia.json</h1></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><h3>Описание</h3><p>Модули информирования позволяют подключить различные средства коммуникации для передачи
+информации от ALEPIZ, например, email, SMS, голосовое уведомление и пр.
+Подключить и средствами коммуникаций может любое действие, коллектор и даже лаунчер ALEPIZ.
+Для этого существует API. Описание API и настроек модулей можно посмотреть в справке
+для действия Media editor и в справке по каждому модулю.
+Можно самостоятельно разработать новое средство связи для отправки сообщений,
+в мессенджер, социальную сеть или еще куда-нибудь.
+Например, действие
+Dashboard использует модуль email для отправки сообщений о событиях по электронной почте.
+Пользователь может настроить себе, какие средства коммуникации он хочет использовать для
+получения сообщений с различным приоритетом.
+В зависимости от выбора, сообщения могут быть
+отправлены по SMS, email или будут озвучены системой голосового
+уведомления. При необходимости автоматической отправки уведомлений можно использовать
+действие send_message, подключая его через коллектор task-runner и запуская по определенному
+условию. Таким образом можно настроить уведомление о произошедших событиях в
+мониторинге. Например, информацию о аварийном отключении сервера, недоступности сервиса или о
+нехватке свободного места на можно получать через SMS.</p><h3>Настройки</h3><ul class="browser-default"><li>dir - каталог в котором располагаются модули информирования, обычно communication.</li><li>server - файл с программным кодом модуля, который будет запущен при необходимости
+воспользоваться средством. Обычно server.js.</li><li>configuration - файл с настройками модуля. Обычно config.json.</li><li>defaultConfigID - модули информирования в  своей конфигурации могут содержать шаблоны для
+отправки различных сообщений. Если шаблон не выбран, используется тот, который описан в
+данной настройке. Обычно default.</li><li>reloadSourceEveryTime - (true|false) - каждый раз при использовании заново подключать
+программный код модуля. Обычно используется для отладки. По умолчанию false</li></ul></div></div></main></body></html>

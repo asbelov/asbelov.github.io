@@ -1,0 +1,38 @@
+<!--Copyright © 2020. Alexander Belov. Contacts: <asbel@alepiz.com>
+Created on 2020-5-16 19:37:53--><!DOCTYPE html><html lang="ru" xml:lang="ru" xmlns="http://www.w3.org/1999/xhtml"><head><title>Task runner: автоматизация процессов - используется для запуска задачи</title><link rel="stylesheet" href="../../../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../../../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &lt;asbel@alepiz.com&gt;"><script src="../../../materialize-css/dist/js/materialize.js"></script><script src="../../../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Task runner</h1><h5 class="light">Предназначен для запуска указанной задачи</h5></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><h3>Описание Task runner</h3><p>Сборщик используется для автоматизации различных процессов. Он запускает задачу. В параметрах
+действий задачи можно использовать переменные, которые определены в текущем счетчике или в
+родительских счетчиках. Перед запуском задачи переменные будут заменены на их значения.</p><h3>Параметры</h3><ul class="browser-default"><li>Task ID (see the Task maker action) - идентификатор задачи.
+Его можно посмотреть в действии Task maker, перед названием задачи.</li><li>Run the task only on a local instance of Alepiz - запускать задачу только на локальном
+экземпляре Алепиз.
+По умолчанию задача будет запущена на всех экземплярах Алепиз.
+Это значит, что при возникновении условия запуска коллектора на любом экземпляре Алепиз,
+задача будет запущена на всех экземплярах Алепиз.
+В случае, если условия запуска коллектора по-очереди
+возникают на всех экземплярах Алепиз, задача может быть запущена несколько раз при
+возникновении этих условий. Это может, например, ускорить поиск и создание новых
+объектов.
+В случае запуска задачи только на локальном экземпляре Алепиз, если производится, например,
+процесс поиска и создания новых объектов их свойств и т.д.,
+данные в базе Алепиз могут оказаться несинхронными.</li></ul><h3>Возвращаемое значение</h3><p>Сборщик возвращает объект, преобразованный в строку и содержащий результаты выполнения каждого
+действия в задаче в формате</p><pre>{
+    "&lt;serverAddress1&gt;:&lt;serverPort1&gt;": {
+        "&lt;actionID1&gt;:&lt;taskActionID1&gt;":&lt;value1&gt;,
+        "&lt;actionID2&gt;:&lt;taskActionID2&gt;":&lt;value2&gt;, ...
+    },
+    "&lt;serverAddress2&gt;:&lt;serverPort2&gt;": {
+        "&lt;actionID1&gt;:&lt;taskActionID1&gt;":&lt;value1&gt;,
+        "&lt;actionID2&gt;:&lt;taskActionID2&gt;":&lt;value2&gt;, ...
+    },....
+}</pre><p>где:</p><ul class="browser-default"><li>&lt;serverAddress1&gt;:&lt;serverPort1&gt; - serverAddress и serverPort сервера,
+от которого пришли данные</li><ul class="browser-default"><li>actionID - идентификатор действия (название каталога действия)</li><li>taskActionID - идентификатор действия из таблицы БД db.db</li><li>tasksActions, а в качестве значения value - значение, возвращаемое действием.</li></ul></ul><p>Например:</p><pre>{
+    "192.168.1.1:10166": {
+        "objects_creator:158":"204591",
+        "objects_properties:159":"59968",
+        "objects_properties:160":"59969"
+    },{
+    "192.168.100.1:10166": {
+        "objects_creator:158":"304591",
+        "objects_properties:159":"69968",
+        "objects_properties:160":"69969"
+    }
+}</pre></div></div></main></body></html>

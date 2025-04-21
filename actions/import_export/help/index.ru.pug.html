@@ -1,0 +1,69 @@
+<!--Copyright © 2022. Alexander Belov. Contacts: <asbel@alepiz.com>
+Created on 10.04.2022, 16:15:07--><!DOCTYPE html><html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml"><head><title>Import&Export: импорт и экспорт объектов</title><link rel="stylesheet" href="../../../materialize-css/dist/css/materialize.css"><link rel="stylesheet" href="../../../material-design-icons/material-icons.css"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><meta name="author" content="Alexander Belov &lt;asbel@alepiz.com&gt;"><script src="../../../materialize-css/dist/js/materialize.js"></script><script src="../../../javascripts/help.js"></script></head><body><header><div class="row"><div class="col s12 m10 offset-m1"><h1>Import&Export</h1><h5 class="light">Действие предназначено для импорта и экспорта объектов, свойств объектов,
+подключений счетчиков к объектам и пересечений объектов.</h5></div></div></header><main><div class="row"><div class="col s12 m10 offset-m1"><img class="materialboxed card-panel hoverable" src="images/help.main.png" width="1024"><h2>Предназначение Import&Export</h2><p>Импорт и экспорт объектов предназначен для передачи настроек объектов между экземплярами
+ALEPIZ.
+Действие позволяет экспортировать и импортировать настройки объектов, включая их свойства,
+пересечения и подключение счетчиков к объектам. Экспорт и импорт осуществляется через
+объект в формате JSON. Описание JSON объекта приведено ниже. При экспорте и импорте
+производится проверка на зависимости данных от внешних объектов и счетчиков. В случае обнаружения
+таких зависимостей, появится предупреждение.
+</p><h5>Возвращаемое значение: JSON объект с импортируемыми данными.</h5><div class="card-panel"><pre>[
+    {
+        &quot;name&quot;: &lt;object name&gt;,
+        &quot;description&quot;: &lt;object description&gt;,
+        &quot;sortPosition&quot;: &lt;object sort order&gt;,
+        &quot;color&quot;: &lt;object color&gt;,
+        &quot;disabled&quot;: &lt;is object disabled (0|1)&gt;,
+        &quot;properties: [
+            {
+                &quot;name&quot;: &lt;property name&gt;,
+                &quot;value&quot;: &lt;property value&gt;,
+                &quot;description&quot; &lt;property description&gt;,
+                &quot;mode&quot;: &lt;property mode&gt;
+            }
+        ]
+        &quot;interactions&quot;: [
+            {
+                &quot;name1&quot;: &lt;object1 name&gt;,
+                &quot;name2&quot;: &lt;object2 name&gt;,
+                &quot;type&quot;: &lt;interaction type:0|1|2&gt;
+            },
+            ...
+        ],
+        &quot;counters&quot;: [
+            &lt;counter name 1&gt;,
+            &lt;counter name 2&gt;,
+            ...
+        ]
+    }
+]</pre></div><p>Interactions</p><ul class="browser-default"><li>0 - Include (включение (группировка) объектов)</li><li>1 - Intersection (пересечение объектов)</li><li>2 - Exclude (исключение объектов)</li></ul><p>Properties mode</p><ul class="browser-default"><li>0 - Not calculated text field (Свойство объекта является неизменной константой.
+Оно отображается в однострочном поле ввода. При использовании свойства в качестве
+переменной, значение свойства никак не преобразуется)</li><li>1 - Checkbox (Свойство объекта является неизменной константой. Оно отображается в поле
+ввода типа checkbox и может принимать значение true или false. При использовании свойства
+в качестве переменной, значение свойства никак не преобразуется)</li><li>2 - Not calculated text area (Свойство объекта является неизменной константой. Оно
+отображается в многострочном поле ввода. При использовании свойства в качестве переменной,
+значение свойства никак не преобразуется)</li><li>3 - Calculated expression (Свойство объекта является выражением и вычисляется каждый раз
+перед получением данных счетчиками, связанными с объектом. Оно отображается в многострочном
+поле ввода. Для вычисления значения свойств объекта используются алгоритмы для вычисления
+значений переменных в счетчиках. Подробнее о вычислениях переменных можно прочитать на
+страницах помощи Counter settings и Примеры использования вычислений в ALEPIZ. В случае
+совпадения названий переменных в счетчике и в свойстве объекта, при вычислении данных
+счетчика приоритет будет за значением переменной из свойства объекта)
+</li></ul><h3>Управление Import&Export</h3><img class="materialboxed card-panel hoverable" src="images/help.controls.png"><p>GENERATE - генерировать данные для экспорта параметров выбранных объектов.
+При необходимости, после генерации, экспортируемые параметры можно отредактировать
+вручную в редакторе данных экспорта и импорта.
+При создании данных для экспорта производится анализ зависимостей экспортируемых данных от
+других объектов и счетчиков. В случае выявления зависимостей, появится окно с
+соответствующей информацией. При нажатии на ссылки будут открываться действия
+для редактирования счетчиков или объектов, с помощью которых также можно произвести экспорт
+данных.</p><img class="materialboxed card-panel hoverable" src="images/help.ImportExportGenerateAssociations.png"><p>EXPORT - сохранить данные из редактора экспорта и импорта в файл. Имя файла формируется
+автоматически из названия объекта в случае, если выбран один объект или устанавливается в
+ALEPIZ_objectsData.json для нескольких объектов.</p><p>IMPORT - загрузить данные объектов из файла в редактор импорта и экспорта данных.
+Производится поиск файлов с расширением .json. После загрузки выполняется проверка
+существования объектов и счетчиков, от которых зависят импортируемые объекты. Если требуемые
+объекты и счетчики не существуют, появится окно с предупреждением о том, что импортируемые
+объекты будут работать некорректно. При необходимости, импортируемые параметры можно
+отредактировать вручную в редакторе данных экспорта и импорта. Для импорта объектов необходимо
+запустить действие на выполнение.</p><p>CHECK - проверка существования объектов и счетчиков, от которых зависят импортируемые объекты.
+Если требуемые объекты и счетчики не существуют, появится окно с предупреждением о том, что
+импортируемые объекты будут работать некорректно.</p><img class="materialboxed card-panel hoverable" src="images/help.importExportImportWarning.png"><p>Skip object properties - не выполнять импорт или экспорт свойств объектов</p><p>Skip linked counters - не выполнять импорт или экспорт связей объектов со счетчиками</p><p>Skip object interactions - не выполнять импорт или экспорт настроек пересечений объектов</p></div></div></main></body></html>
