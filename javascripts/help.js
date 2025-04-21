@@ -143,7 +143,6 @@ function makeNavBar(headerElm) {
                 <li class=" show-on-site-only"><a href="/help/contents.pug"><i class="material-icons skiptranslate">toc</i></a></li>\
                 <li class=" show-on-site-only"><a href="/help/download.pug"><i class="material-icons skiptranslate">get_app</i></a></li>\
                 <li class=" show-on-site-only"><a href="/help/contact.pug"><i class="material-icons skiptranslate">email</i></a></li>\
-                <li class=" show-on-site-only"><a href="/help/money.pug"><i class="material-icons skiptranslate">credit_card</i></a></li>\
                 <li><div id="google_translate_element"></div></li>\
             </ul>\
         </div>\
