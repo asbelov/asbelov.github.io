@@ -166,7 +166,7 @@ function initTranslation() {
     scriptElm1.src = "//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit";
     document.head.appendChild(scriptElm1);
 
-    waitForGoogle(20);
+    waitForGoogle(50);
 }
 
 function initGA() {
