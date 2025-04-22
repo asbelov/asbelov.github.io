@@ -65,7 +65,7 @@ function makeTableOfContents(divElm) {
 
     var headerElm = document.getElementsByTagName('h1')[0];
 
-    var tableOfContentsLink = '<b><a href="/help/contents.pug">Table of contents</a></b>';
+    var tableOfContentsLink = '<b><a href="/help/contents.pug.html">Table of contents</a></b>';
     var alepizLink = '<b><a href="/" target="_blank">Connect to ALEPIZ</a></b>';
 
     var contentArray = [];
@@ -114,7 +114,7 @@ function makeFooter() {
         var link = 'mailto:' + email + '?subject=[ALEPIZ page: ' + window.location.pathname +']'
     } else {
         author = 'ALEPIZ'
-        link = '/help/copyright.pug';
+        link = '/help/copyright.pug.html';
     }
 
     //console.log(author, email, lastModified);
@@ -140,9 +140,9 @@ function makeNavBar(headerElm) {
                 <li><a href="https://alepiz.com"' + target + '><i class="material-icons skiptranslate left">home</i></a></li>\
             </ul>\
             <ul class="right show-on-small">\
-                <li class=" show-on-site-only"><a href="/help/contents.pug"><i class="material-icons skiptranslate">toc</i></a></li>\
-                <li class=" show-on-site-only"><a href="/help/download.pug"><i class="material-icons skiptranslate">get_app</i></a></li>\
-                <li class=" show-on-site-only"><a href="/help/contact.pug"><i class="material-icons skiptranslate">email</i></a></li>\
+                <li class=" show-on-site-only"><a href="/help/contents.pug.html"><i class="material-icons skiptranslate">toc</i></a></li>\
+                <li class=" show-on-site-only"><a href="/help/download.pug.html"><i class="material-icons skiptranslate">get_app</i></a></li>\
+                <li class=" show-on-site-only"><a href="/help/contact.pug.html"><i class="material-icons skiptranslate">email</i></a></li>\
                 <li><div id="google_translate_element"></div></li>\
             </ul>\
         </div>\
